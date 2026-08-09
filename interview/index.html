@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CSS Interview Questions & Answers — css.ai</title>
+<meta name="description" content="60+ real CSS interview questions from junior to senior level, with plain-English answers." />
+<link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container">
+    <a class="brand" href="../index.html">css<span>.ai</span></a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#tracks">Guides</a>
+      <a href="index.html" class="active">Interview Q&amp;A</a>
+      <a href="../projects/index.html">Projects</a>
+      <a href="../reference/cheatsheet.html">Cheatsheet</a>
+      <a href="https://github.com/" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle menu">menu</button>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="container">
+    <span class="eyebrow">63+ questions · junior to senior</span>
+    <h1>CSS interview questions &amp; answers</h1>
+    <p class="lede" style="max-width:680px">Real questions grouped by level, with plain-English answers and the follow-up angle an interviewer is likely to probe next. Filter by level or topic, or just scroll.</p>
+  </div>
+</header>
+
+<main class="container" style="padding:40px 24px 100px;">
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="junior">Junior</button>
+    <button class="filter-btn" data-filter="mid">Mid-level</button>
+    <button class="filter-btn" data-filter="senior">Senior</button>
+    <button class="filter-btn" data-filter="selectors">Selectors</button>
+    <button class="filter-btn" data-filter="flexbox">Flexbox</button>
+    <button class="filter-btn" data-filter="grid">Grid</button>
+    <button class="filter-btn" data-filter="box-model">Box model</button>
+    <button class="filter-btn" data-filter="performance">Performance</button>
+    <button class="filter-btn" data-filter="architecture">Architecture</button>
+  </div>
+
+    <div class="qa-item" data-tags="junior fundamentals selectors">
+      <button class="qa-question">
+        <span><span class="q-num">01</span>What's the difference between a class and an ID selector? <span class="level-badge level-junior">Junior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>A class (<code>.name</code>) can be reused on many elements and has lower specificity; an ID (<code>#name</code>) must be unique per page and has much higher specificity, making it harder to override later. Prefer classes for styling.</p></div>
+    </div>
+    <div class="qa-item" data-tags="junior fundamentals">
+      <button class="qa-question">
+        <span><span class="q-num">02</span>What does the 'C' in CSS stand for, and why does it matter? <span class="level-badge level-junior">Junior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>Cascading. It describes how the browser resolves conflicting rules for the same element and property using origin, layers, specificity, and source order, in that priority. It's not just a name - it's the whole conflict-resolution model.</p></div>
+    </div>
+    <div class="qa-item" data-tags="junior box-model">
+      <button class="qa-question">
+        <span><span class="q-num">03</span>Explain the CSS box model. <span class="level-badge level-junior">Junior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>Every element is a box made of content, padding, border, and margin, from the inside out. <code>width</code>/<code>height</code> size the content by default; <code>box-sizing: border-box</code> changes that so width includes padding and border too.</p></div>
+    </div>
+    <div class="qa-item" data-tags="junior box-model">
+      <button class="qa-question">
+        <span><span class="q-num">04</span>What's the difference between content-box and border-box? <span class="level-badge level-junior">Junior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>With <code>content-box</code> (the default), padding and border add to the element's set width. With <code>border-box</code>, padding and border are included inside that width, so the box stays exactly the size you specified.</p></div>
+    </div>
+    <div class="qa-item" data-tags="junior layout">
+      <button class="qa-question">
+        <span><span class="q-num">05</span>What's the difference between block, inline, and inline-block? <span class="level-badge level-junior">Junior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>Block elements take the full available width and stack vertically. Inline elements flow with text, ignore width/height, and only respect horizontal margin/padding visually. Inline-block flows inline but fully respects width, height, and vertical margin/padding.</p></div>
+    </div>
+    <div class="qa-item" data-tags="junior positioning">
+      <button class="qa-question">
+        <span><span class="q-num">06</span>What are the values of the position property? <span class="level-badge level-junior">Junior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>static (default, normal flow), relative (offset from its normal position, stays in flow), absolute (removed from flow, positioned against the nearest positioned ancestor), fixed (positioned against the viewport), and sticky (relative until a scroll threshold, then fixed within its parent).</p></div>
+    </div>
+    <div class="qa-item" data-tags="junior selectors">
+      <button class="qa-question">
+        <span><span class="q-num">07</span>How do you select every direct child of an element, versus every descendant? <span class="level-badge level-junior">Junior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p><code>.parent > .child</code> selects direct children only. <code>.parent .child</code> (a space) selects descendants at any depth.</p></div>
+    </div>
+    <div class="qa-item" data-tags="junior flexbox">
+      <button class="qa-question">
+        <span><span class="q-num">08</span>How do you center a div both horizontally and vertically? <span class="level-badge level-junior">Junior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>Make the parent a flex container and set <code>display: flex; align-items: center; justify-content: center;</code> — the most common modern answer. Grid's <code>place-items: center</code> is an equally valid one-liner.</p></div>
+    </div>
+    <div class="qa-item" data-tags="junior units">
+      <button class="qa-question">
+        <span><span class="q-num">09</span>What's the difference between em and rem? <span class="level-badge level-junior">Junior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p><code>em</code> is relative to the font-size of the element itself (or its parent, for font-size), so it can compound unpredictably when nested. <code>rem</code> is always relative to the root <code>&lt;html&gt;</code> font-size, which makes it more predictable for consistent spacing and type scales.</p></div>
+    </div>
+    <div class="qa-item" data-tags="junior fundamentals">
+      <button class="qa-question">
+        <span><span class="q-num">10</span>What is inheritance in CSS? <span class="level-badge level-junior">Junior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>Certain properties, mostly text-related ones like color and font-family, automatically pass their computed value down to child elements unless a more specific rule overrides them. Box-model properties like margin and width do not inherit.</p></div>
+    </div>
+    <div class="qa-item" data-tags="junior colors">
+      <button class="qa-question">
+        <span><span class="q-num">11</span>Name three ways to specify a color in CSS. <span class="level-badge level-junior">Junior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>Hex (<code>#7aa2f7</code>), functional notation like <code>rgb()</code>/<code>hsl()</code>/<code>oklch()</code>, and named colors like <code>CornflowerBlue</code>. Modern syntax also supports an alpha channel directly, e.g. <code>rgb(0 0 0 / 50%)</code>.</p></div>
+    </div>
+    <div class="qa-item" data-tags="junior display">
+      <button class="qa-question">
+        <span><span class="q-num">12</span>What does display: none do, and how is it different from visibility: hidden? <span class="level-badge level-junior">Junior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p><code>display: none</code> removes the element from layout entirely - it takes up no space and isn't announced by screen readers. <code>visibility: hidden</code> hides it visually but keeps its layout space reserved.</p></div>
+    </div>
+    <div class="qa-item" data-tags="junior flexbox">
+      <button class="qa-question">
+        <span><span class="q-num">13</span>What does flex: 1 do? <span class="level-badge level-junior">Junior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>Shorthand for <code>flex-grow: 1; flex-shrink: 1; flex-basis: 0%</code> - the item ignores its natural content size and grows to fill available space, sharing it proportionally with sibling items that also have flex: 1.</p></div>
+    </div>
+    <div class="qa-item" data-tags="junior responsive">
+      <button class="qa-question">
+        <span><span class="q-num">14</span>What is a media query? <span class="level-badge level-junior">Junior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>A conditional block of CSS that only applies when a condition about the browsing environment is true - most commonly viewport width, e.g. <code>@media (min-width: 768px) { ... }</code>.</p></div>
+    </div>
+    <div class="qa-item" data-tags="junior fundamentals">
+      <button class="qa-question">
+        <span><span class="q-num">15</span>What does the universal selector * do, and when might it cause a performance issue? <span class="level-badge level-junior">Junior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>It matches every element on the page. It's commonly used for resets like <code>box-sizing: border-box</code>. It's rarely a real performance issue at typical page sizes, but combined with expensive properties or very deep DOM trees it can add measurable style recalculation cost.</p></div>
+    </div>
+    <div class="qa-item" data-tags="mid specificity">
+      <button class="qa-question">
+        <span><span class="q-num">16</span>How is CSS specificity calculated? <span class="level-badge level-mid">Mid-level</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>As a tuple of (inline styles, ID selectors, class/attribute/pseudo-class selectors, type/pseudo-element selectors), compared left to right. It's not additive across columns - ten classes never outweigh a single ID, because the ID column is compared first.</p></div>
+    </div>
+    <div class="qa-item" data-tags="mid box-model">
+      <button class="qa-question">
+        <span><span class="q-num">17</span>What is margin collapsing, and when does it not happen? <span class="level-badge level-mid">Mid-level</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>Adjacent vertical margins between block-level, in-flow siblings collapse to the larger value instead of adding together. It doesn't happen for horizontal margins, for flex/grid items, or for floated/absolutely-positioned elements - and it can happen 'through' a parent and its first/last child if nothing separates them.</p></div>
+    </div>
+    <div class="qa-item" data-tags="mid flexbox">
+      <button class="qa-question">
+        <span><span class="q-num">18</span>flex: 1 vs flex: auto — what's the practical difference? <span class="level-badge level-mid">Mid-level</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>Both grow and shrink, but flex: 1 sets flex-basis to 0%, ignoring the item's content size as a starting point, so items grow purely by ratio. flex: auto sets flex-basis to auto, so it starts from the content's natural size before growing - items with more content end up larger.</p></div>
+    </div>
+    <div class="qa-item" data-tags="mid grid">
+      <button class="qa-question">
+        <span><span class="q-num">19</span>What's the difference between auto-fit and auto-fill in a grid-template-columns repeat()? <span class="level-badge level-mid">Mid-level</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>Both create as many tracks as fit given a minmax() constraint. The difference shows only when there are fewer items than possible tracks: auto-fill keeps the empty tracks (items don't stretch), auto-fit collapses empty tracks to zero width and lets existing items stretch to fill the row.</p></div>
+    </div>
+    <div class="qa-item" data-tags="mid positioning stacking">
+      <button class="qa-question">
+        <span><span class="q-num">20</span>Why might z-index: 9999 fail to bring an element to the front? <span class="level-badge level-mid">Mid-level</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>z-index only compares elements within the same stacking context. If an ancestor creates its own stacking context - for example via opacity less than 1, a transform, a filter, or its own z-index - nothing inside that ancestor can render above a sibling of that ancestor, regardless of how high its own z-index is set.</p></div>
+    </div>
+    <div class="qa-item" data-tags="mid selectors">
+      <button class="qa-question">
+        <span><span class="q-num">21</span>Explain the difference between :is(), :where(), and :not(). <span class="level-badge level-mid">Mid-level</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>:is() and :where() both match any selector in a list, shortening repetitive selectors. :is() takes on the specificity of its most specific argument; :where() always has zero specificity, useful for easily-overridable base styles. :not() excludes elements matching its argument and (in modern CSS) can take a full selector list.</p></div>
+    </div>
+    <div class="qa-item" data-tags="mid custom-properties">
+      <button class="qa-question">
+        <span><span class="q-num">22</span>How do CSS custom properties differ from Sass variables? <span class="level-badge level-mid">Mid-level</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>Custom properties are resolved by the browser at render time - they cascade, can be scoped to any element (not just globally), inherit down the DOM, and can be read or changed via JavaScript or media queries. Sass variables are compile-time text substitution and don't exist at all once the CSS ships.</p></div>
+    </div>
+    <div class="qa-item" data-tags="mid responsive">
+      <button class="qa-question">
+        <span><span class="q-num">23</span>What's the difference between a media query and a container query? <span class="level-badge level-mid">Mid-level</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>A media query responds to the viewport or device characteristics. A container query responds to the size of a specific ancestor element that's been opted in with container-type - which lets the same component adapt based on where it's placed, independent of the overall screen size.</p></div>
+    </div>
+    <div class="qa-item" data-tags="mid animation">
+      <button class="qa-question">
+        <span><span class="q-num">24</span>Why are transform and opacity considered the 'cheap' properties to animate? <span class="level-badge level-mid">Mid-level</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>Browsers can animate them on the compositor thread without triggering a layout recalculation or repaint on every frame, unlike properties such as width, top, or margin, which force the browser to recompute geometry each frame.</p></div>
+    </div>
+    <div class="qa-item" data-tags="mid architecture">
+      <button class="qa-question">
+        <span><span class="q-num">25</span>What problem does BEM naming solve? <span class="level-badge level-mid">Mid-level</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>It keeps every selector a single flat class, so specificity stays uniform and predictable across a whole codebase, and it makes a class's relationship to its component explicit from the name alone (block, element, or modifier) without needing to read the CSS file.</p></div>
+    </div>
+    <div class="qa-item" data-tags="mid layout">
+      <button class="qa-question">
+        <span><span class="q-num">26</span>When would you choose Grid over Flexbox? <span class="level-badge level-mid">Mid-level</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>When you need to control two dimensions at once - rows and columns together - or need explicit item placement by line number or named area. Flexbox is for distributing items along a single axis where content should influence sizing.</p></div>
+    </div>
+    <div class="qa-item" data-tags="mid fundamentals">
+      <button class="qa-question">
+        <span><span class="q-num">27</span>What's the difference between unset, initial, and inherit? <span class="level-badge level-mid">Mid-level</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>initial resets a property to its specification-defined default value. inherit forces it to take the parent's computed value, even for properties that don't normally inherit. unset acts like inherit for naturally-inheriting properties and like initial for everything else.</p></div>
+    </div>
+    <div class="qa-item" data-tags="mid pseudo">
+      <button class="qa-question">
+        <span><span class="q-num">28</span>What's the difference between :first-child and :first-of-type? <span class="level-badge level-mid">Mid-level</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>:first-child matches only if the element is literally the first child of its parent, regardless of type. :first-of-type matches the first sibling of its specific tag type, even if other different elements come before it.</p></div>
+    </div>
+    <div class="qa-item" data-tags="mid grid">
+      <button class="qa-question">
+        <span><span class="q-num">29</span>What is subgrid and what problem does it solve? <span class="level-badge level-mid">Mid-level</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>It lets a nested grid inherit its parent's track sizing instead of defining its own, so independently-sized items nested inside separate grid cells - like card titles and prices - can still align to a shared set of tracks across the whole layout.</p></div>
+    </div>
+    <div class="qa-item" data-tags="mid responsive">
+      <button class="qa-question">
+        <span><span class="q-num">30</span>How does clamp() work, and what's a practical use for it? <span class="level-badge level-mid">Mid-level</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>clamp(min, preferred, max) picks the preferred value but constrains it between min and max. It's most commonly used for fluid typography: font-size: clamp(1.5rem, 4vw, 3rem) scales smoothly with viewport width but never goes below or above the bounds.</p></div>
+    </div>
+    <div class="qa-item" data-tags="mid sizing">
+      <button class="qa-question">
+        <span><span class="q-num">31</span>What's the difference between min-content, max-content, and fit-content? <span class="level-badge level-mid">Mid-level</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>min-content is the smallest size a box can be without overflowing its own content (e.g. the widest unbreakable word). max-content is the size it would be with no wrapping at all. fit-content acts like max-content but is capped by the available space, like a hybrid of the two.</p></div>
+    </div>
+    <div class="qa-item" data-tags="senior architecture layers">
+      <button class="qa-question">
+        <span><span class="q-num">32</span>Explain how @layer changes cascade resolution, and why specificity alone couldn't solve the same problem. <span class="level-badge level-senior">Senior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>Cascade layers let you group rules into named buckets whose priority is decided purely by declaration order of the layers - before specificity is even evaluated. Specificity is a per-selector comparison and can't express a rule like 'everything in this whole group of rules should lose to everything in that group,' regardless of how specific individual selectors are within each group. Layers add an entirely new axis to the cascade above specificity.</p></div>
+    </div>
+    <div class="qa-item" data-tags="senior performance">
+      <button class="qa-question">
+        <span><span class="q-num">33</span>How would you diagnose a page suffering from layout thrashing caused by CSS/JS interaction? <span class="level-badge level-senior">Senior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>Look for repeated read-then-write cycles that alternate between reading a layout-dependent property (like offsetHeight) and writing a style that invalidates layout, forcing a synchronous reflow on every iteration. The fix is usually batching all reads before all writes, and preferring transform/opacity-driven animation over properties that trigger layout, ideally verified with the browser's performance/rendering panel.</p></div>
+    </div>
+    <div class="qa-item" data-tags="senior stacking">
+      <button class="qa-question">
+        <span><span class="q-num">34</span>Walk through everything that can create a new stacking context. <span class="level-badge level-senior">Senior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>The root element; any positioned element (position other than static) with a z-index other than auto; flex/grid items with a z-index other than auto; elements with opacity less than 1; elements with a transform, filter, backdrop-filter, perspective, clip-path, mask, or will-change naming one of these; elements with isolation: isolate; and elements with mix-blend-mode other than normal. Recognizing this list is often the difference between guessing and diagnosing a z-index bug quickly.</p></div>
+    </div>
+    <div class="qa-item" data-tags="senior architecture">
+      <button class="qa-question">
+        <span><span class="q-num">35</span>How would you structure CSS for a large team where multiple people ship components daily? <span class="level-badge level-senior">Senior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>A strong answer names concrete mechanisms, not just a methodology label: cascade layers or ITCSS-style load order to make specificity fights structurally impossible, a component-scoping convention (BEM or CSS Modules) so class collisions can't happen, design tokens as custom properties for anything visual, and a lint rule capping selector specificity/nesting depth in CI.</p></div>
+    </div>
+    <div class="qa-item" data-tags="senior rendering">
+      <button class="qa-question">
+        <span><span class="q-num">36</span>What's the difference between layout, paint, and composite in the rendering pipeline, and how does that map to CSS property choice? <span class="level-badge level-senior">Senior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>Layout (geometry: position and size) is the most expensive and cascades to affected siblings/ancestors. Paint (turning boxes into pixels: color, shadows, borders) is cheaper but still per-frame work. Composite (assembling pre-painted layers, transform/opacity changes) is the cheapest and can run on a separate thread. Choosing transform/opacity for animation keeps work in the compositor stage entirely.</p></div>
+    </div>
+    <div class="qa-item" data-tags="senior custom-properties">
+      <button class="qa-question">
+        <span><span class="q-num">37</span>Why can't the browser animate an arbitrary custom property smoothly by default, and how does @property fix that? <span class="level-badge level-senior">Senior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>Untyped custom properties are just strings to the browser - it has no way to interpolate between two arbitrary strings the way it can interpolate a number or color. @property registers a variable with a real syntax (like <angle> or <color>) and an initial value, which gives the browser enough type information to compute intermediate values during a transition or animation.</p></div>
+    </div>
+    <div class="qa-item" data-tags="senior specificity">
+      <button class="qa-question">
+        <span><span class="q-num">38</span>A third-party CSS file is overriding your component styles unpredictably. What are your architectural options, ranked? <span class="level-badge level-senior">Senior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>In rough order of preference: wrap your styles in a later-declared cascade layer so they win regardless of the third party's specificity; increase actual selector specificity deliberately rather than reaching for !important; use :where() to keep your own base styles at zero specificity so they don't compound the problem; and only as a last resort, scope with a shadow DOM or an iframe if true isolation is required.</p></div>
+    </div>
+    <div class="qa-item" data-tags="senior container-queries">
+      <button class="qa-question">
+        <span><span class="q-num">39</span>What are the real trade-offs of container queries versus a component-variant prop pattern in a design system? <span class="level-badge level-senior">Senior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>Container queries keep responsiveness inside CSS and require no JavaScript or extra props, and they respond to actual rendered space rather than an assumption about where a component will be used. The trade-off is a slight performance cost from the browser tracking containment, and that very deeply nested conditional variants can become harder to trace than an explicit prop-driven variant would be in code review.</p></div>
+    </div>
+    <div class="qa-item" data-tags="senior specificity">
+      <button class="qa-question">
+        <span><span class="q-num">40</span>Explain exactly how :not() and :is() affect the specificity of a selector that uses them. <span class="level-badge level-senior">Senior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>:not() and :is() both contribute the specificity of their single most specific argument to the overall selector, not the sum of all arguments and not zero. :where() is the exception - it always contributes zero specificity regardless of what's inside it, which makes it useful for writing overridable defaults.</p></div>
+    </div>
+    <div class="qa-item" data-tags="junior typography">
+      <button class="qa-question">
+        <span><span class="q-num">41</span>What's the difference between line-height: 1.5 and line-height: 24px? <span class="level-badge level-junior">Junior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>The unitless value 1.5 is a multiplier of the element's own font-size and inherits as that multiplier - child elements recompute it against their own font-size. A fixed 24px inherits as a literal pixel value, which can look wrong if a child has a different font-size. Unitless is almost always the safer default.</p></div>
+    </div>
+    <div class="qa-item" data-tags="junior selectors">
+      <button class="qa-question">
+        <span><span class="q-num">42</span>What does the + combinator select? <span class="level-badge level-junior">Junior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>The adjacent sibling combinator - it selects an element that comes immediately after another specific element, sharing the same parent. h2 + p selects a paragraph only if it directly follows an h2.</p></div>
+    </div>
+    <div class="qa-item" data-tags="junior grid">
+      <button class="qa-question">
+        <span><span class="q-num">43</span>What does the fr unit represent in CSS Grid? <span class="level-badge level-junior">Junior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>A fraction of the leftover space in the grid container after fixed-size tracks and gaps are subtracted - not a fraction of the total container width.</p></div>
+    </div>
+    <div class="qa-item" data-tags="junior forms">
+      <button class="qa-question">
+        <span><span class="q-num">44</span>How do you style just the placeholder text of an input? <span class="level-badge level-junior">Junior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>With the ::placeholder pseudo-element: input::placeholder { color: #999; }.</p></div>
+    </div>
+    <div class="qa-item" data-tags="junior overflow">
+      <button class="qa-question">
+        <span><span class="q-num">45</span>What's the difference between overflow: hidden, scroll, and auto? <span class="level-badge level-junior">Junior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>hidden clips overflowing content with no scrollbar. scroll always shows a scrollbar even if content fits. auto shows a scrollbar only when content actually overflows.</p></div>
+    </div>
+    <div class="qa-item" data-tags="junior fundamentals">
+      <button class="qa-question">
+        <span><span class="q-num">46</span>What is the purpose of a CSS reset or normalize stylesheet? <span class="level-badge level-junior">Junior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>Browsers ship inconsistent default styles for elements like margins on headings or list bullet styles. A reset strips these to a blank baseline; a normalize approach instead makes defaults consistent across browsers without removing them entirely.</p></div>
+    </div>
+    <div class="qa-item" data-tags="junior flexbox">
+      <button class="qa-question">
+        <span><span class="q-num">47</span>What does flex-wrap: wrap do? <span class="level-badge level-junior">Junior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>Allows flex items to move onto multiple lines when they don't fit on one, instead of shrinking indefinitely or overflowing the container (the default, nowrap, keeps everything on a single line).</p></div>
+    </div>
+    <div class="qa-item" data-tags="mid typography">
+      <button class="qa-question">
+        <span><span class="q-num">48</span>What does font-display: swap actually change? <span class="level-badge level-mid">Mid-level</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>It tells the browser to render text immediately using a fallback font, then swap to the custom web font once it finishes loading, rather than leaving text invisible while the font downloads (the default 'block' behavior in many cases).</p></div>
+    </div>
+    <div class="qa-item" data-tags="mid animation">
+      <button class="qa-question">
+        <span><span class="q-num">49</span>What is animation-fill-mode: both for, and what bug does forgetting it cause? <span class="level-badge level-mid">Mid-level</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>It keeps the animation's first-keyframe styles applied before it starts and its last-keyframe styles applied after it ends. Without it, an element can flash in its un-animated state right before the animation begins, or snap back to that state right after it finishes.</p></div>
+    </div>
+    <div class="qa-item" data-tags="mid preprocessors">
+      <button class="qa-question">
+        <span><span class="q-num">50</span>What problem does @use solve that the older @import didn't in Sass? <span class="level-badge level-mid">Mid-level</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>@import dumped every variable, mixin, and function into one shared global namespace, which caused collisions across a large project. @use namespaces everything by the file it came from, so two partials can define a variable with the same name without conflict.</p></div>
+    </div>
+    <div class="qa-item" data-tags="mid frameworks">
+      <button class="qa-question">
+        <span><span class="q-num">51</span>What's the core trade-off of a utility-first framework like Tailwind versus semantic class names? <span class="level-badge level-mid">Mid-level</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>Utility-first avoids ever inventing component names and ships less unused CSS, since a build step purges classes you didn't actually use - but markup becomes more verbose and visually noisy, and consistency depends on disciplined use of the design token config rather than being enforced by the CSS structure itself.</p></div>
+    </div>
+    <div class="qa-item" data-tags="mid color">
+      <button class="qa-question">
+        <span><span class="q-num">52</span>Why might a design system choose oklch() over hsl() for its color scale? <span class="level-badge level-mid">Mid-level</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>hsl() is not perceptually uniform - lowering lightness by the same amount looks like a bigger change on some hues than others, especially blues versus yellows. oklch() is built so equal numeric steps in lightness look like equal visual steps, which makes programmatically generating a consistent tint/shade scale far more reliable.</p></div>
+    </div>
+    <div class="qa-item" data-tags="mid selectors">
+      <button class="qa-question">
+        <span><span class="q-num">53</span>What is the practical use of the :has() selector that wasn't possible in CSS before? <span class="level-badge level-mid">Mid-level</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>It lets you select a parent or preceding element based on what's inside or after it - effectively a parent selector, which CSS lacked for its entire history. A common case: styling a form field wrapper differently only when it contains an invalid input, with no JavaScript.</p></div>
+    </div>
+    <div class="qa-item" data-tags="mid accessibility">
+      <button class="qa-question">
+        <span><span class="q-num">54</span>How should :focus-visible be used differently than :focus? <span class="level-badge level-mid">Mid-level</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>:focus shows an outline for every focus event, including mouse clicks, which many designs then strip entirely, breaking keyboard accessibility. :focus-visible only applies when the browser determines the focus should be visibly indicated - typically keyboard navigation - so you can keep a clean look for mouse users without removing indicators for keyboard users.</p></div>
+    </div>
+    <div class="qa-item" data-tags="mid grid">
+      <button class="qa-question">
+        <span><span class="q-num">55</span>What does minmax(0, 1fr) protect against that a plain 1fr doesn't? <span class="level-badge level-mid">Mid-level</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>A plain fr track still won't shrink below its content's min-content size by default, so a long unbreakable string (like a URL) can force the whole grid wider than intended. Wrapping it in minmax(0, 1fr) allows the track to shrink all the way to zero if needed, letting overflow rules like text-overflow: ellipsis actually take effect.</p></div>
+    </div>
+    <div class="qa-item" data-tags="mid positioning">
+      <button class="qa-question">
+        <span><span class="q-num">56</span>Why does a fixed-position element sometimes scroll with the page instead of staying put? <span class="level-badge level-mid">Mid-level</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>If any ancestor has a transform, filter, perspective, or will-change naming one of these, that ancestor creates a new containing block, and the fixed element positions relative to it instead of the viewport - making it appear to scroll along with that ancestor.</p></div>
+    </div>
+    <div class="qa-item" data-tags="mid print">
+      <button class="qa-question">
+        <span><span class="q-num">57</span>How do you write CSS specifically for printed output? <span class="level-badge level-mid">Mid-level</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>With an @media print block, or a separate stylesheet linked with media="print". Common patterns include hiding navigation and interactive elements, forcing a light background, and controlling page breaks with break-before/break-after/break-inside.</p></div>
+    </div>
+    <div class="qa-item" data-tags="senior performance">
+      <button class="qa-question">
+        <span><span class="q-num">58</span>How does content-visibility: auto improve rendering performance, and what's the trade-off? <span class="level-badge level-senior">Senior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>It lets the browser skip layout, paint, and rendering work for off-screen content entirely until it's near the viewport, similar to native lazy-loading but for arbitrary DOM subtrees. The trade-off is that without an explicit contain-intrinsic-size, the browser has no size estimate for unrendered content, which can cause scrollbar jumps as content becomes visible and gets measured for the first time.</p></div>
+    </div>
+    <div class="qa-item" data-tags="senior architecture">
+      <button class="qa-question">
+        <span><span class="q-num">59</span>How do you prevent specificity wars in a codebase that mixes a third-party component library with custom overrides? <span class="level-badge level-senior">Senior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>Wrap first-party overrides in a cascade layer declared after the library's layer (or after an unlayered import if the library isn't layer-aware), so they win by layer order rather than needing higher specificity selectors - avoiding an arms race of increasingly specific or !important-laden overrides.</p></div>
+    </div>
+    <div class="qa-item" data-tags="senior rendering">
+      <button class="qa-question">
+        <span><span class="q-num">60</span>Explain why toggling display: none and reading offsetHeight in a loop is a performance anti-pattern. <span class="level-badge level-senior">Senior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>Reading a layout-dependent property forces the browser to synchronously flush any pending style/layout changes to answer accurately. Interleaving writes (toggling display) and reads (offsetHeight) in a loop forces a full synchronous reflow on every iteration instead of one batched reflow - this is 'layout thrashing,' and the fix is to batch all reads, then all writes.</p></div>
+    </div>
+    <div class="qa-item" data-tags="senior grid">
+      <button class="qa-question">
+        <span><span class="q-num">61</span>When would subgrid be preferable to just repeating the same grid-template-columns value on a nested grid? <span class="level-badge level-senior">Senior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>When the parent's track sizes are dynamic or content-driven (e.g. auto-sized columns based on the widest item across the whole layout) - manually repeating a fixed value on a nested grid can't track that dynamic sizing, while subgrid inherits the actual resolved tracks from the parent, keeping nested content genuinely aligned even as sizes change.</p></div>
+    </div>
+    <div class="qa-item" data-tags="senior colors">
+      <button class="qa-question">
+        <span><span class="q-num">62</span>What does color-mix() enable that wasn't practical with plain CSS before? <span class="level-badge level-senior">Senior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>Blending two colors, including CSS variables, directly in a chosen color space at render time - useful for deriving hover/active states or tint scales from a single brand color variable without a preprocessor's compile-time color functions, and it updates live if the source variable changes (e.g. via a theme toggle).</p></div>
+    </div>
+    <div class="qa-item" data-tags="senior methodology">
+      <button class="qa-question">
+        <span><span class="q-num">63</span>What's a concrete failure mode of BEM at scale, and how do teams typically mitigate it? <span class="level-badge level-senior">Senior</span></span>
+        <span class="chev">+</span>
+      </button>
+      <div class="qa-answer"><p>Extremely long, repetitive class names on deeply nested components, and no built-in mechanism for shared layout/spacing utilities, which pushes teams toward either verbose duplicate declarations or an ad hoc mix of BEM plus a small utility layer - most large teams end up formalizing that utility layer rather than pretending BEM alone is sufficient.</p></div>
+    </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>css.ai — an open-source, practical CSS reference.</span>
+    <a href="../index.html">Back to home</a>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CSS Frameworks & Libraries — css.ai</title>
+<meta name="description" content="Tailwind, Bootstrap, Bulma, open-props - how to pick and how they work." />
+<link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container">
+    <a class="brand" href="../index.html">css<span>.ai</span></a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#tracks">Guides</a>
+      <a href="../interview/index.html">Interview Q&amp;A</a>
+      <a href="../projects/index.html">Projects</a>
+      <a href="../reference/cheatsheet.html">Cheatsheet</a>
+      <a href="https://github.com/" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle menu">menu</button>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="container">
+    <span class="eyebrow">guide 14 / 14 · tooling</span>
+    <h1>Frameworks &amp; libraries</h1>
+    <p class="lede" style="max-width:680px">Every framework is really a set of decisions someone else made for you. Knowing what decision each one makes is more useful than memorizing class names.</p>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="side-toc">
+    <h4>On this page</h4>
+    <a href="#tailwind">Tailwind CSS</a>
+    <a href="#bootstrap">Bootstrap</a>
+    <a href="#other">Other notable options</a>
+    <a href="#comparison">Comparison</a>
+    <a href="#picking">How to pick</a>
+    <a href="#interview">Interview angle</a>
+
+    <h4 style="margin-top:28px">Guides</h4>
+    <a href="fundamentals.html" >01. Fundamentals</a>
+    <a href="selectors-specificity.html" >02. Selectors &amp; specificity</a>
+    <a href="box-model.html" >03. Box model</a>
+    <a href="flexbox.html" >04. Flexbox</a>
+    <a href="grid.html" >05. Grid</a>
+    <a href="positioning-stacking.html" >06. Positioning</a>
+    <a href="responsive-design.html" >07. Responsive design</a>
+    <a href="typography-color.html" >08. Typography &amp; color</a>
+    <a href="custom-properties.html" >09. Custom properties</a>
+    <a href="animations-transitions.html" >10. Animation</a>
+    <a href="modern-css.html" >11. Modern CSS</a>
+    <a href="architecture-methodologies.html" >12. Architecture</a>
+    <a href="preprocessors.html" >13. Preprocessors</a>
+    <a href="frameworks.html" class="active">14. Frameworks</a>
+  </aside>
+
+  <article class="content">
+
+    <section id="tailwind">
+      <h2>Tailwind CSS</h2>
+      <p>A utility-first framework - instead of shipping pre-built components, it ships a huge set of single-purpose classes (<code>flex</code>, <code>pt-4</code>, <code>text-slate-600</code>) that you compose directly in markup. A build step scans your markup and generates a stylesheet containing only the utilities you actually used.</p>
+      <div class="code-block">
+        <div class="code-label"><span>tailwind-example.html</span><button class="copy-btn">copy</button></div>
+        <pre>&lt;button class=<span class="tok-str">"px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600"</span>&gt;
+  Save changes
+&lt;/button&gt;</pre>
+      </div>
+      <p><strong>Strengths:</strong> no unused CSS ships to production, no naming decisions, design tokens (spacing/color scale) enforced by the config. <strong>Trade-offs:</strong> verbose markup, a learning curve for the utility vocabulary, requires a build step for the tree-shaking to work.</p>
+    </section>
+
+    <section id="bootstrap">
+      <h2>Bootstrap</h2>
+      <p>A component framework - ships finished, styled components (navbars, cards, modals, forms) plus a 12-column grid system, all customizable through Sass variables. Reach for it when you need to ship a functional UI fast and visual distinctiveness matters less than speed.</p>
+      <div class="code-block">
+        <div class="code-label"><span>bootstrap-example.html</span><button class="copy-btn">copy</button></div>
+        <pre>&lt;div class=<span class="tok-str">"container"</span>&gt;
+  &lt;div class=<span class="tok-str">"row"</span>&gt;
+    &lt;div class=<span class="tok-str">"col-md-6"</span>&gt;...&lt;/div&gt;
+    &lt;div class=<span class="tok-str">"col-md-6"</span>&gt;...&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section id="other">
+      <h2>Other notable options</h2>
+      <table>
+        <thead><tr><th>Library</th><th>What it is</th></tr></thead>
+        <tbody>
+          <tr><td>Bulma</td><td>Component framework, Flexbox-based, no JavaScript included</td></tr>
+          <tr><td>Open Props</td><td>Not a framework - a curated set of CSS custom properties (spacing, color, shadows, easing) you consume directly, no build step or class vocabulary</td></tr>
+          <tr><td>Pico CSS</td><td>Classless framework - style semantic HTML with almost no classes at all, good for content-first sites</td></tr>
+          <tr><td>UnoCSS</td><td>An on-demand, engine-agnostic utility CSS generator - faster build times than Tailwind, compatible syntax</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="comparison">
+      <h2>Comparison</h2>
+      <table>
+        <thead><tr><th></th><th>Utility-first (Tailwind)</th><th>Component (Bootstrap)</th><th>Custom CSS</th></tr></thead>
+        <tbody>
+          <tr><td>Visual distinctiveness</td><td>High - no default look</td><td>Low, unless heavily themed</td><td>Full control</td></tr>
+          <tr><td>Speed to ship</td><td>Fast once fluent</td><td>Fastest for standard UI</td><td>Slowest</td></tr>
+          <tr><td>Bundle size</td><td>Small - unused classes purged</td><td>Larger unless customized</td><td>As large as you write</td></tr>
+          <tr><td>Learning curve</td><td>Moderate (class vocabulary)</td><td>Low</td><td>Requires real CSS knowledge</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="picking">
+      <h2>How to pick</h2>
+      <ul>
+        <li><strong>Design system already exists, need speed</strong> - Tailwind, mapped to your tokens.</li>
+        <li><strong>Internal tool, admin panel, prototype</strong> - Bootstrap or Bulma, minimal customization.</li>
+        <li><strong>Marketing site that needs a distinctive identity</strong> - custom CSS, possibly with Open Props as a token baseline.</li>
+        <li><strong>Content-heavy site, minimal interactivity</strong> - a classless framework like Pico.</li>
+      </ul>
+    </section>
+
+    <section id="interview" class="callout interview">
+      <span class="callout-title">Interview angle</span>
+      <p><strong>Q: What are the downsides of a utility-first approach?</strong> Verbose, repetitive markup; a real learning curve for the class vocabulary; harder to enforce true one-off visual consistency without disciplined use of the config's design tokens. A strong answer doesn't just praise Tailwind - it names the real cost. More in the <a href="../interview/index.html">interview guide</a>.</p>
+    </section>
+
+  </article>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>css.ai — an open-source, practical CSS reference.</span>
+    <a href="../index.html">Back to home</a>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

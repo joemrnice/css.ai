@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Typography & Color — css.ai</title>
+<meta name="description" content="Font loading, the CSS color spaces, gradients, color-mix(), and accessible contrast." />
+<link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container">
+    <a class="brand" href="../index.html">css<span>.ai</span></a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#tracks">Guides</a>
+      <a href="../interview/index.html">Interview Q&amp;A</a>
+      <a href="../projects/index.html">Projects</a>
+      <a href="../reference/cheatsheet.html">Cheatsheet</a>
+      <a href="https://github.com/" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle menu">menu</button>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="container">
+    <span class="eyebrow">guide 8 / 14 · visual</span>
+    <h1>Typography &amp; color</h1>
+    <p class="lede" style="max-width:680px">The two properties that carry a design’s personality more than any other: what the text looks like, and what colors it sits in.</p>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="side-toc">
+    <h4>On this page</h4>
+    <a href="#font-loading">Loading web fonts</a>
+    <a href="#type-props">Core type properties</a>
+    <a href="#color-values">Ways to write a color</a>
+    <a href="#color-functions">Color functions</a>
+    <a href="#gradients">Gradients</a>
+    <a href="#contrast">Accessible contrast</a>
+    <a href="#interview">Interview angle</a>
+
+    <h4 style="margin-top:28px">Guides</h4>
+    <a href="fundamentals.html" >01. Fundamentals</a>
+    <a href="selectors-specificity.html" >02. Selectors &amp; specificity</a>
+    <a href="box-model.html" >03. Box model</a>
+    <a href="flexbox.html" >04. Flexbox</a>
+    <a href="grid.html" >05. Grid</a>
+    <a href="positioning-stacking.html" >06. Positioning</a>
+    <a href="responsive-design.html" >07. Responsive design</a>
+    <a href="typography-color.html" class="active">08. Typography &amp; color</a>
+    <a href="custom-properties.html" >09. Custom properties</a>
+    <a href="animations-transitions.html" >10. Animation</a>
+    <a href="modern-css.html" >11. Modern CSS</a>
+    <a href="architecture-methodologies.html" >12. Architecture</a>
+    <a href="preprocessors.html" >13. Preprocessors</a>
+    <a href="frameworks.html" >14. Frameworks</a>
+  </aside>
+
+  <article class="content">
+
+    <section id="font-loading">
+      <h2>Loading web fonts</h2>
+      <div class="code-block">
+        <div class="code-label"><span>fonts.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-at">@font-face</span> {
+  <span class="tok-prop">font-family</span>: <span class="tok-str">"Inter"</span>;
+  <span class="tok-prop">src</span>: <span class="tok-val">url("/fonts/inter.woff2") format("woff2")</span>;
+  <span class="tok-prop">font-weight</span>: <span class="tok-val">400 700</span>;   <span class="tok-cmt">/* variable font weight range */</span>
+  <span class="tok-prop">font-display</span>: <span class="tok-val">swap</span>;    <span class="tok-cmt">/* show fallback text immediately, swap when ready */</span>
+}
+
+<span class="tok-sel">body</span> {
+  <span class="tok-prop">font-family</span>: <span class="tok-str">"Inter"</span>, <span class="tok-val">system-ui, sans-serif</span>; <span class="tok-cmt">/* always give a fallback stack */</span>
+}</pre>
+      </div>
+      <table>
+        <thead><tr><th><code>font-display</code> value</th><th>Behavior</th></tr></thead>
+        <tbody>
+          <tr><td><code>swap</code></td><td>Fallback shows instantly, swaps once the font loads — best for readability</td></tr>
+          <tr><td><code>block</code></td><td>Briefly invisible text, then swaps — avoids a flash of unstyled text but can flash blank</td></tr>
+          <tr><td><code>optional</code></td><td>Browser decides whether to wait at all, based on connection speed</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="type-props">
+      <h2>Core type properties</h2>
+      <table>
+        <thead><tr><th>Property</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><code>line-height</code></td><td>Unitless values (e.g. <code>1.5</code>) scale with font-size and inherit cleanly — prefer these over px/em line-heights</td></tr>
+          <tr><td><code>letter-spacing</code></td><td>Tracking between characters — small negative values often improve large display headings</td></tr>
+          <tr><td><code>text-wrap: balance</code></td><td>Evens out line lengths in headings so they don't end with one orphan word</td></tr>
+          <tr><td><code>font-variation-settings</code></td><td>Fine control over variable font axes beyond weight, e.g. width or optical size</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="color-values">
+      <h2>Ways to write a color</h2>
+      <div class="code-block">
+        <div class="code-label"><span>color-syntax.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-prop">color</span>: <span class="tok-val">#7aa2f7</span>;                     <span class="tok-cmt">/* hex */</span>
+<span class="tok-prop">color</span>: <span class="tok-val">rgb(122 162 247)</span>;            <span class="tok-cmt">/* space-separated modern syntax */</span>
+<span class="tok-prop">color</span>: <span class="tok-val">rgb(122 162 247 / 60%)</span>;      <span class="tok-cmt">/* with alpha */</span>
+<span class="tok-prop">color</span>: <span class="tok-val">hsl(221 88% 72%)</span>;            <span class="tok-cmt">/* hue, saturation, lightness — easy to tweak by feel */</span>
+<span class="tok-prop">color</span>: <span class="tok-val">oklch(0.72 0.12 260)</span>;        <span class="tok-cmt">/* perceptually uniform — equal steps *look* equal */</span>
+<span class="tok-prop">color</span>: <span class="tok-val">CornflowerBlue</span>;           <span class="tok-cmt">/* one of 147 named colors */</span></pre>
+      </div>
+      <div class="callout tip">
+        <span class="callout-title">Why oklch is gaining ground</span>
+        <p>In HSL, lowering "lightness" on different hues doesn't darken them by the same perceived amount — blues get muddy faster than yellows. <code>oklch()</code> is built so equal changes in its lightness channel look equally different to the human eye, which makes generating a whole color scale programmatically far more reliable.</p>
+      </div>
+    </section>
+
+    <section id="color-functions">
+      <h2>Color functions</h2>
+      <div class="code-block">
+        <div class="code-label"><span>color-mix.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-cmt">/* blend two colors without a preprocessor */</span>
+<span class="tok-sel">.btn:hover</span> {
+  <span class="tok-prop">background</span>: <span class="tok-val">color-mix(in oklch, var(--brand) 85%, white)</span>;
+}
+
+<span class="tok-cmt">/* tint a color using the current value plus transparency */</span>
+<span class="tok-sel">.badge</span> {
+  <span class="tok-prop">background</span>: <span class="tok-val">rgb(from var(--brand) r g b / 12%)</span>;
+}</pre>
+      </div>
+    </section>
+
+    <section id="gradients">
+      <h2>Gradients</h2>
+      <div class="code-block">
+        <div class="code-label"><span>gradients.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-prop">background</span>: <span class="tok-val">linear-gradient(135deg, #7aa2f7, #bb9af7)</span>;
+<span class="tok-prop">background</span>: <span class="tok-val">radial-gradient(circle at top left, #12161f, #0b0e14)</span>;
+<span class="tok-prop">background</span>: <span class="tok-val">conic-gradient(from 0deg, red, orange, yellow, green, blue, violet, red)</span>;</pre>
+      </div>
+    </section>
+
+    <section id="contrast">
+      <h2>Accessible contrast</h2>
+      <p>WCAG 2.1 AA requires a contrast ratio of at least <strong>4.5:1</strong> for normal text and <strong>3:1</strong> for large text (18pt+/24px+, or 14pt+/18.66px+ bold) against its background. Always check text-on-color combinations, not just your default palette in isolation — a brand blue that passes on white may fail on your dark surface color.</p>
+      <div class="callout warn">
+        <span class="callout-title">Don't rely on color alone</span>
+        <p>Error states, required-field markers, and links inside body text should have a second signal besides color — an icon, underline, or label — for users with color vision deficiencies.</p>
+      </div>
+    </section>
+
+    <section id="interview" class="callout interview">
+      <span class="callout-title">Interview angle</span>
+      <p><strong>Q: What's the difference between HSL and OKLCH, and why would you switch?</strong> Both are cylindrical color models with a lightness channel, but OKLCH is perceptually uniform, so it's better for generating consistent color scales or interpolating between colors without muddy midpoints. More in the <a href="../interview/index.html">interview guide</a>.</p>
+    </section>
+
+  </article>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>css.ai — an open-source, practical CSS reference.</span>
+    <a href="../index.html">Back to home</a>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

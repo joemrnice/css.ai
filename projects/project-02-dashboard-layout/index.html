@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Project: Dashboard Layout — css.ai</title>
+<link rel="stylesheet" href="../../assets/css/style.css" />
+<style>
+  .demo-shell {
+    background: #0f1117; border-radius: var(--radius-lg); overflow: hidden;
+    margin: 30px 0 10px; height: 560px; border: 1px solid #232838;
+  }
+
+  .app {
+    --sidebar-w: 220px;
+    display: grid;
+    grid-template-columns: var(--sidebar-w) 1fr;
+    grid-template-rows: 60px 1fr;
+    grid-template-areas:
+      "sidebar header"
+      "sidebar main";
+    height: 100%;
+    font-family: 'Inter', sans-serif;
+    color: #e8eaed;
+  }
+
+  .app-sidebar {
+    grid-area: sidebar;
+    background: #12141c;
+    border-right: 1px solid #232838;
+    padding: 20px 16px;
+    overflow-y: auto;
+  }
+  .app-sidebar .logo { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #fff; margin-bottom: 24px; font-size: 0.95rem; }
+  .app-sidebar nav a {
+    display: block; padding: 9px 12px; border-radius: 8px; margin-bottom: 2px;
+    color: #9aa1b4; font-size: 0.88rem; text-decoration: none;
+  }
+  .app-sidebar nav a.active, .app-sidebar nav a:hover { background: #1c2030; color: #fff; }
+
+  .app-header {
+    grid-area: header;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px; border-bottom: 1px solid #232838;
+    position: sticky; top: 0; background: #0f1117; z-index: 2;
+  }
+  .app-header .title { font-weight: 600; font-size: 0.95rem; }
+  .app-header .avatar { width: 30px; height: 30px; border-radius: 50%; background: #7aa2f7; }
+
+  .app-main {
+    grid-area: main;
+    padding: 24px;
+    overflow-y: auto;
+  }
+  .stat-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 20px; }
+  .stat-cards .stat-card {
+    background: #12141c; border: 1px solid #232838; border-radius: 12px; padding: 16px;
+  }
+  .stat-cards .stat-card .n { font-family: 'JetBrains Mono', monospace; font-size: 1.4rem; color: #9ece6a; font-weight: 700; }
+  .stat-cards .stat-card .l { font-size: 0.78rem; color: #7d8497; margin-top: 4px; }
+  .panel { background: #12141c; border: 1px solid #232838; border-radius: 12px; padding: 18px; height: 180px; display: flex; align-items: center; justify-content: center; color: #565f89; font-size: 0.85rem; }
+
+  /* mobile: sidebar becomes a top strip, main content stacks below */
+  @media (max-width: 640px) {
+    .app {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto 56px 1fr;
+      grid-template-areas:
+        "sidebar"
+        "header"
+        "main";
+    }
+    .app-sidebar { border-right: none; border-bottom: 1px solid #232838; display: flex; align-items: center; gap: 14px; padding: 12px 16px; }
+    .app-sidebar nav { display: flex; gap: 4px; overflow-x: auto; }
+    .app-sidebar nav a { white-space: nowrap; }
+    .stat-cards { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container">
+    <a class="brand" href="../../index.html">css<span>.ai</span></a>
+    <div class="nav-links">
+      <a href="../../index.html">Home</a>
+      <a href="../../index.html#tracks">Guides</a>
+      <a href="../../interview/index.html">Interview Q&amp;A</a>
+      <a href="../index.html" class="active">Projects</a>
+      <a href="../../reference/cheatsheet.html">Cheatsheet</a>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle menu">menu</button>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="container">
+    <span class="eyebrow">project 02 · grid · sticky · responsive</span>
+    <h1>Dashboard layout</h1>
+    <p class="lede" style="max-width:680px">The classic app shell — sidebar, sticky header, scrollable main content — built with <code>grid-template-areas</code> so the whole structure reflows at one breakpoint with zero markup changes.</p>
+  </div>
+</header>
+
+<main class="container" style="padding:20px 24px 100px;">
+
+  <div class="demo-shell">
+    <div class="app">
+      <aside class="app-sidebar">
+        <div class="logo">acme<span style="color:#e0af68">.io</span></div>
+        <nav>
+          <a href="#" class="active">Overview</a>
+          <a href="#">Analytics</a>
+          <a href="#">Projects</a>
+          <a href="#">Team</a>
+          <a href="#">Settings</a>
+        </nav>
+      </aside>
+      <header class="app-header">
+        <span class="title">Overview</span>
+        <span class="avatar"></span>
+      </header>
+      <main class="app-main">
+        <div class="stat-cards">
+          <div class="stat-card"><div class="n">2,481</div><div class="l">Active users</div></div>
+          <div class="stat-card"><div class="n">$18.2k</div><div class="l">Revenue (MTD)</div></div>
+          <div class="stat-card"><div class="n">94%</div><div class="l">Uptime</div></div>
+        </div>
+        <div class="panel">chart placeholder — scroll this panel's parent to see the header stay sticky</div>
+      </main>
+    </div>
+  </div>
+
+  <section style="margin-top:48px">
+    <h2>How it's built</h2>
+    <ul>
+      <li><strong>The skeleton:</strong> <code>.app</code> is a grid with named areas — <code>grid-template-areas</code> literally spells out the layout, so it reads like a diagram rather than a set of coordinates.</li>
+      <li><strong>Sticky header:</strong> <code>.app-header</code> uses <code>position: sticky; top: 0;</code> combined with its scroll container (<code>.app-main</code> for a page-level version of this pattern, or the grid's own overflow here) — it needs a defined scrolling ancestor to stick within.</li>
+      <li><strong>The one breakpoint:</strong> at 640px, <code>grid-template-columns</code> collapses to one column and <code>grid-template-areas</code> is redefined to stack sidebar → header → main. Every child just has <code>grid-area: sidebar</code> etc. — no per-child media queries needed.</li>
+      <li><strong>Stat cards:</strong> a simple <code>grid-template-columns: repeat(3, 1fr)</code> that becomes <code>1fr</code> on mobile.</li>
+    </ul>
+    <div class="callout interview">
+      <span class="callout-title">Try extending it</span>
+      <p>Add a collapsible sidebar that shrinks to icon-only width using a CSS custom property for <code>--sidebar-w</code> toggled by a checkbox hack or a small JS class toggle — see the <a href="../../pages/custom-properties.html">custom properties guide</a>.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>css.ai — an open-source, practical CSS reference.</span>
+    <a href="../../index.html">Back to home</a>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Box Model — css.ai</title>
+<meta name="description" content="content-box vs border-box, margin collapsing, overflow, and box-sizing gotchas." />
+<link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container">
+    <a class="brand" href="../index.html">css<span>.ai</span></a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#tracks">Guides</a>
+      <a href="../interview/index.html">Interview Q&amp;A</a>
+      <a href="../projects/index.html">Projects</a>
+      <a href="../reference/cheatsheet.html">Cheatsheet</a>
+      <a href="https://github.com/" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle menu">menu</button>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="container">
+    <span class="eyebrow">guide 3 / 14 · core</span>
+    <h1>The box model</h1>
+    <p class="lede" style="max-width:680px">Every element on the page is a rectangular box. Understanding what makes up that box — and which sizing mode you are in — resolves most "why is this 4px off" bugs.</p>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="side-toc">
+    <h4>On this page</h4>
+    <a href="#anatomy">Box anatomy</a>
+    <a href="#sizing">box-sizing</a>
+    <a href="#collapsing">Margin collapsing</a>
+    <a href="#overflow">Overflow</a>
+    <a href="#display">display &amp; the outer/inner model</a>
+    <a href="#interview">Interview angle</a>
+
+    <h4 style="margin-top:28px">Guides</h4>
+    <a href="fundamentals.html" >01. Fundamentals</a>
+    <a href="selectors-specificity.html" >02. Selectors &amp; specificity</a>
+    <a href="box-model.html" class="active">03. Box model</a>
+    <a href="flexbox.html" >04. Flexbox</a>
+    <a href="grid.html" >05. Grid</a>
+    <a href="positioning-stacking.html" >06. Positioning</a>
+    <a href="responsive-design.html" >07. Responsive design</a>
+    <a href="typography-color.html" >08. Typography &amp; color</a>
+    <a href="custom-properties.html" >09. Custom properties</a>
+    <a href="animations-transitions.html" >10. Animation</a>
+    <a href="modern-css.html" >11. Modern CSS</a>
+    <a href="architecture-methodologies.html" >12. Architecture</a>
+    <a href="preprocessors.html" >13. Preprocessors</a>
+    <a href="frameworks.html" >14. Frameworks</a>
+  </aside>
+
+  <article class="content">
+
+    <section id="anatomy">
+      <h2>Box anatomy</h2>
+      <p>From the inside out, every box is made of four layers: <strong>content</strong>, <strong>padding</strong>, <strong>border</strong>, and <strong>margin</strong>.</p>
+      <ul>
+        <li><strong>Content</strong> — the actual text/image/children, sized by <code>width</code>/<code>height</code>.</li>
+        <li><strong>Padding</strong> — space inside the border, same background as the element.</li>
+        <li><strong>Border</strong> — a visible (or invisible) edge, sits between padding and margin.</li>
+        <li><strong>Margin</strong> — transparent space outside the border, separates the box from its neighbors.</li>
+      </ul>
+      <div class="code-block">
+        <div class="code-label"><span>box.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-sel">.box</span> {
+  <span class="tok-prop">width</span>: <span class="tok-val">300px</span>;
+  <span class="tok-prop">padding</span>: <span class="tok-val">20px</span>;
+  <span class="tok-prop">border</span>: <span class="tok-val">4px solid #7aa2f7</span>;
+  <span class="tok-prop">margin</span>: <span class="tok-val">16px</span>;
+}</pre>
+      </div>
+    </section>
+
+    <section id="sizing">
+      <h2>box-sizing</h2>
+      <p>This is the single most-asked practical CSS question. By default (<code>content-box</code>), <code>width</code> only sets the content area — padding and border get <em>added on top</em>, so a "300px" box with 20px padding and a 4px border actually occupies 348px.</p>
+      <div class="code-block">
+        <div class="code-label"><span>box-sizing.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-cmt">/* the near-universal reset every project should have */</span>
+<span class="tok-sel">*, *::before, *::after</span> {
+  <span class="tok-prop">box-sizing</span>: <span class="tok-val">border-box</span>;
+}</pre>
+      </div>
+      <table>
+        <thead><tr><th>Value</th><th>What <code>width</code> measures</th></tr></thead>
+        <tbody>
+          <tr><td><code>content-box</code> (default)</td><td>Content only — padding &amp; border add to the total rendered size</td></tr>
+          <tr><td><code>border-box</code></td><td>Content + padding + border — the box stays exactly the width you set</td></tr>
+        </tbody>
+      </table>
+      <div class="callout tip">
+        <span class="callout-title">Why border-box wins</span>
+        <p>With <code>border-box</code>, a grid of three <code>width: 33.33%</code> cards with padding will actually fit in one row. With <code>content-box</code> the padding pushes the total width over 100% and the third card wraps. This one line prevents a huge class of layout bugs.</p>
+      </div>
+    </section>
+
+    <section id="collapsing">
+      <h2>Margin collapsing</h2>
+      <p>Vertical margins between <strong>block-level, in-flow</strong> siblings don't add up — they collapse to the <em>larger</em> of the two. A paragraph with <code>margin-bottom: 20px</code> followed by one with <code>margin-top: 30px</code> ends up with 30px of space between them, not 50px.</p>
+      <ul>
+        <li>Collapsing only happens for <strong>vertical</strong> margins (top/bottom), never horizontal.</li>
+        <li>It only happens between block boxes in normal flow — flex items, grid items, and floated/absolutely positioned elements never collapse.</li>
+        <li>A parent and its first/last child can collapse "through" each other if there's no padding, border, or content separating them — a surprising source of a container appearing to ignore its child's top margin.</li>
+      </ul>
+      <div class="callout warn">
+        <span class="callout-title">Fix for parent/child collapsing</span>
+        <p>Give the parent <code>padding-top: 1px</code>, a border, or set <code>display: flow-root</code> to establish a new block formatting context and stop the collapse.</p>
+      </div>
+    </section>
+
+    <section id="overflow">
+      <h2>Overflow</h2>
+      <table>
+        <thead><tr><th>Value</th><th>Behavior</th></tr></thead>
+        <tbody>
+          <tr><td><code>visible</code> (default)</td><td>Content spills outside the box, unclipped</td></tr>
+          <tr><td><code>hidden</code></td><td>Clipped, no scrollbar, not reachable by keyboard/scroll</td></tr>
+          <tr><td><code>scroll</code></td><td>Always shows a scrollbar, even if content fits</td></tr>
+          <tr><td><code>auto</code></td><td>Scrollbar appears only when content overflows</td></tr>
+          <tr><td><code>clip</code></td><td>Like hidden, but also disallows programmatic scrolling</td></tr>
+        </tbody>
+      </table>
+      <p><code>overflow-x</code> and <code>overflow-y</code> let you set each axis independently — a common pattern is <code>overflow-x: auto; overflow-y: hidden;</code> for a horizontal scroll rail.</p>
+    </section>
+
+    <section id="display">
+      <h2>display &amp; the outer/inner model</h2>
+      <p>Modern CSS treats <code>display</code> as two values: an <strong>outer</strong> display type (how the box interacts with siblings — <code>block</code> or <code>inline</code>) and an <strong>inner</strong> display type (how it lays out its own children — <code>flow</code>, <code>flex</code>, <code>grid</code>).</p>
+      <div class="code-block">
+        <div class="code-label"><span>display.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-prop">display</span>: <span class="tok-val">block</span>;         <span class="tok-cmt">/* takes full width, stacks vertically, accepts width/height */</span>
+<span class="tok-prop">display</span>: <span class="tok-val">inline</span>;        <span class="tok-cmt">/* flows with text, ignores width/height, top/bottom margin */</span>
+<span class="tok-prop">display</span>: <span class="tok-val">inline-block</span>;  <span class="tok-cmt">/* flows inline but respects width/height/margin fully */</span>
+<span class="tok-prop">display</span>: <span class="tok-val">flex</span>;          <span class="tok-cmt">/* outer: block, inner: flex — children become flex items */</span>
+<span class="tok-prop">display</span>: <span class="tok-val">inline flex</span>;   <span class="tok-cmt">/* two-value syntax: outer inline, inner flex */</span></pre>
+      </div>
+    </section>
+
+    <section id="interview" class="callout interview">
+      <span class="callout-title">Interview angle</span>
+      <p><strong>Q: A 3-column layout using percentage widths keeps wrapping to a 4th row — why?</strong> Almost always <code>box-sizing: content-box</code> plus padding pushing the true rendered width past 100%. Ask about margin collapsing next — it trips up nearly every candidate on a whiteboard. More in the <a href="../interview/index.html">interview guide</a>.</p>
+    </section>
+
+  </article>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>css.ai — an open-source, practical CSS reference.</span>
+    <a href="../index.html">Back to home</a>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

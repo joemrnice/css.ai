@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Positioning & Stacking Contexts — css.ai</title>
+<meta name="description" content="static, relative, absolute, fixed, sticky, z-index, and stacking contexts explained." />
+<link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container">
+    <a class="brand" href="../index.html">css<span>.ai</span></a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#tracks">Guides</a>
+      <a href="../interview/index.html">Interview Q&amp;A</a>
+      <a href="../projects/index.html">Projects</a>
+      <a href="../reference/cheatsheet.html">Cheatsheet</a>
+      <a href="https://github.com/" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle menu">menu</button>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="container">
+    <span class="eyebrow">guide 6 / 14 · layout</span>
+    <h1>Positioning &amp; stacking</h1>
+    <p class="lede" style="max-width:680px">Taking an element out of normal flow — and the z-index rules that decide what renders on top of what.</p>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="side-toc">
+    <h4>On this page</h4>
+    <a href="#values">The five position values</a>
+    <a href="#offsets">Offset properties</a>
+    <a href="#sticky">position: sticky in depth</a>
+    <a href="#stacking">z-index &amp; stacking contexts</a>
+    <a href="#interview">Interview angle</a>
+
+    <h4 style="margin-top:28px">Guides</h4>
+    <a href="fundamentals.html" >01. Fundamentals</a>
+    <a href="selectors-specificity.html" >02. Selectors &amp; specificity</a>
+    <a href="box-model.html" >03. Box model</a>
+    <a href="flexbox.html" >04. Flexbox</a>
+    <a href="grid.html" >05. Grid</a>
+    <a href="positioning-stacking.html" class="active">06. Positioning</a>
+    <a href="responsive-design.html" >07. Responsive design</a>
+    <a href="typography-color.html" >08. Typography &amp; color</a>
+    <a href="custom-properties.html" >09. Custom properties</a>
+    <a href="animations-transitions.html" >10. Animation</a>
+    <a href="modern-css.html" >11. Modern CSS</a>
+    <a href="architecture-methodologies.html" >12. Architecture</a>
+    <a href="preprocessors.html" >13. Preprocessors</a>
+    <a href="frameworks.html" >14. Frameworks</a>
+  </aside>
+
+  <article class="content">
+
+    <section id="values">
+      <h2>The five position values</h2>
+      <table>
+        <thead><tr><th>Value</th><th>Behavior</th></tr></thead>
+        <tbody>
+          <tr><td><code>static</code> (default)</td><td>Normal document flow. Offset properties (<code>top</code>/<code>left</code>/etc.) do nothing.</td></tr>
+          <tr><td><code>relative</code></td><td>Stays in normal flow, but offsets shift it visually from where it would have been — and it becomes the positioning context for absolutely-positioned children.</td></tr>
+          <tr><td><code>absolute</code></td><td>Removed from flow entirely; positioned relative to the nearest positioned ancestor (or the initial containing block if none).</td></tr>
+          <tr><td><code>fixed</code></td><td>Removed from flow; positioned relative to the viewport, ignores scrolling — unless an ancestor has a <code>transform</code>, <code>filter</code>, or <code>will-change</code>, which creates a new containing block.</td></tr>
+          <tr><td><code>sticky</code></td><td>Acts like <code>relative</code> until a scroll threshold is crossed, then "sticks" like <code>fixed</code> within its parent's bounds.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="offsets">
+      <h2>Offset properties</h2>
+      <div class="code-block">
+        <div class="code-label"><span>positioning.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-sel">.dropdown-panel</span> {
+  <span class="tok-prop">position</span>: <span class="tok-val">absolute</span>;
+  <span class="tok-prop">top</span>: <span class="tok-val">100%</span>;   <span class="tok-cmt">/* just below the trigger */</span>
+  <span class="tok-prop">right</span>: <span class="tok-val">0</span>;
+}
+
+<span class="tok-cmt">/* the classic "cover the whole parent" trick */</span>
+<span class="tok-sel">.overlay</span> {
+  <span class="tok-prop">position</span>: <span class="tok-val">absolute</span>;
+  <span class="tok-prop">inset</span>: <span class="tok-val">0</span>;  <span class="tok-cmt">/* shorthand for top/right/bottom/left: 0 */</span>
+}</pre>
+      </div>
+      <div class="callout warn">
+        <span class="callout-title">The classic bug</span>
+        <p>An <code>absolute</code> child positions itself relative to the nearest ancestor with a <code>position</code> other than <code>static</code> — forget to add <code>position: relative</code> to the parent, and the child positions against the whole page instead.</p>
+      </div>
+    </section>
+
+    <section id="sticky">
+      <h2>position: sticky in depth</h2>
+      <p><code>sticky</code> needs a threshold — at minimum one of <code>top</code>, <code>bottom</code>, <code>left</code>, or <code>right</code> — or it behaves like <code>relative</code> and never sticks.</p>
+      <ul>
+        <li>It sticks <em>within its parent</em> — once the parent scrolls out of view, the sticky child scrolls away with it.</li>
+        <li>A parent with <code>overflow: hidden</code>, <code>scroll</code>, or <code>auto</code> can silently break sticky children — the clipping ancestor becomes the scrolling container.</li>
+        <li>Common use: sticky table headers, sticky section nav, sticky "add to cart" bar.</li>
+      </ul>
+    </section>
+
+    <section id="stacking">
+      <h2>z-index &amp; stacking contexts</h2>
+      <p><code>z-index</code> only compares elements <em>within the same stacking context</em> — it is not a single global layering number. A stacking context is created by, among other things: the root element, any positioned element with a <code>z-index</code> other than <code>auto</code>, elements with <code>opacity</code> less than 1, and elements with a <code>transform</code>, <code>filter</code>, or <code>will-change</code>.</p>
+      <div class="callout warn">
+        <span class="callout-title">Why z-index: 9999 sometimes doesn't work</span>
+        <p>If a parent creates its own stacking context (say, because it has <code>opacity: 0.99</code> or a <code>transform</code> for an animation), nothing inside that parent can ever render above a sibling of the parent, no matter how high its <code>z-index</code> goes — it's trapped inside its parent's layer.</p>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>stacking.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-sel">.modal-backdrop</span> { <span class="tok-prop">position</span>: <span class="tok-val">fixed</span>; <span class="tok-prop">inset</span>: <span class="tok-val">0</span>; <span class="tok-prop">z-index</span>: <span class="tok-val">100</span>; }
+<span class="tok-sel">.modal</span>          { <span class="tok-prop">position</span>: <span class="tok-val">fixed</span>; <span class="tok-prop">inset</span>: <span class="tok-val">0</span>; <span class="tok-prop">z-index</span>: <span class="tok-val">101</span>; }
+<span class="tok-sel">.toast</span>          { <span class="tok-prop">position</span>: <span class="tok-val">fixed</span>; <span class="tok-prop">z-index</span>: <span class="tok-val">200</span>; } <span class="tok-cmt">/* always above modals */</span></pre>
+      </div>
+      <p>A maintainable pattern: define a small set of named z-index tiers as <a href="custom-properties.html">custom properties</a> (<code>--z-dropdown</code>, <code>--z-modal</code>, <code>--z-toast</code>) instead of scattering arbitrary numbers across the codebase.</p>
+    </section>
+
+    <section id="interview" class="callout interview">
+      <span class="callout-title">Interview angle</span>
+      <p><strong>Q: You set <code>z-index: 999</code> and the element still renders behind another — why?</strong> Walk through stacking contexts: check whether an ancestor has <code>opacity &lt; 1</code>, a <code>transform</code>, or its own <code>z-index</code>, which would trap the element in a lower layer regardless of its own z-index value. More in the <a href="../interview/index.html">interview guide</a>.</p>
+    </section>
+
+  </article>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>css.ai — an open-source, practical CSS reference.</span>
+    <a href="../index.html">Back to home</a>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

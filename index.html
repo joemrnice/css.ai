@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>css.ai — A practical, deep-dive CSS reference</title>
+<meta name="description" content="An open-source, practical CSS guide: fundamentals to modern CSS, real projects, and job interview questions with answers." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎨</text></svg>" />
+<link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container">
+    <a class="brand" href="index.html">css<span>.ai</span></a>
+    <div class="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="index.html#tracks">Guides</a>
+      <a href="interview/index.html">Interview Q&amp;A</a>
+      <a href="projects/index.html">Projects</a>
+      <a href="reference/cheatsheet.html">Cheatsheet</a>
+      <a href="https://github.com/" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle menu">menu</button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow">open-source · css.ai</span>
+      <h1>CSS, explained the way it actually gets used.</h1>
+      <p class="lede">A practical, no-fluff reference: the cascade, the box model, flexbox and grid, modern CSS features, real build-it-yourself projects, and the interview questions that actually get asked — with plain-English answers.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="pages/fundamentals.html">Start with fundamentals →</a>
+        <a class="btn" href="interview/index.html">Jump to interview prep</a>
+      </div>
+    </div>
+
+    <div class="spec-widget">
+      <label for="spec-input">Try it — type a selector and see its specificity</label>
+      <div class="spec-input-row">
+        <input id="spec-input" type="text" placeholder=".card > h3::after" autocomplete="off" spellcheck="false" />
+      </div>
+      <div class="spec-result" id="spec-output">
+        <div class="spec-chip"><div class="n" data-id>0</div><div class="l">IDs</div></div>
+        <div class="spec-chip"><div class="n" data-class>0</div><div class="l">Classes / attrs</div></div>
+        <div class="spec-chip"><div class="n" data-type>0</div><div class="l">Types / pseudo-el</div></div>
+      </div>
+      <p class="spec-note" data-note>Higher tuples win, left column first. Inline styles and !important still beat all of this.</p>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <div class="stat-strip">
+    <div class="stat"><div class="n">14</div><div class="l">deep-dive guides</div></div>
+    <div class="stat"><div class="n">60+</div><div class="l">interview Q&amp;As</div></div>
+    <div class="stat"><div class="n">3</div><div class="l">build-along projects</div></div>
+    <div class="stat"><div class="n">0</div><div class="l">build tools required</div></div>
+  </div>
+</div>
+
+<main class="container path-section" id="tracks">
+  <span class="section-label"><span class="p">display</span>: <span class="v">track-list</span>;</span>
+  <h2>Learning path</h2>
+  <p style="max-width:640px">Read top to bottom for a structured path, or jump straight to what you need — every guide is self-contained and links out to MDN for the full spec text.</p>
+
+  <div class="track-list">
+    <a class="track-row" href="pages/fundamentals.html">
+      <span class="idx">01</span>
+      <span><span class="title">Fundamentals</span><div class="desc">Syntax, the cascade, inheritance, the box model at a glance, units and values.</div></span>
+      <span class="meta">core</span>
+    </a>
+    <a class="track-row" href="pages/selectors-specificity.html">
+      <span class="idx">02</span>
+      <span><span class="title">Selectors &amp; specificity</span><div class="desc">Every selector type, combinators, specificity math, :is()/:where()/:has().</div></span>
+      <span class="meta">core</span>
+    </a>
+    <a class="track-row" href="pages/box-model.html">
+      <span class="idx">03</span>
+      <span><span class="title">The box model</span><div class="desc">content-box vs border-box, margin collapsing, overflow, box-sizing gotchas.</div></span>
+      <span class="meta">core</span>
+    </a>
+    <a class="track-row" href="pages/flexbox.html">
+      <span class="idx">04</span>
+      <span><span class="title">Flexbox</span><div class="desc">Main/cross axis, grow/shrink/basis, alignment, common flex recipes.</div></span>
+      <span class="meta">layout</span>
+    </a>
+    <a class="track-row" href="pages/grid.html">
+      <span class="idx">05</span>
+      <span><span class="title">CSS Grid</span><div class="desc">Tracks, areas, fr units, auto-fit vs auto-fill, subgrid.</div></span>
+      <span class="meta">layout</span>
+    </a>
+    <a class="track-row" href="pages/positioning-stacking.html">
+      <span class="idx">06</span>
+      <span><span class="title">Positioning &amp; stacking</span><div class="desc">static/relative/absolute/fixed/sticky, z-index, stacking contexts.</div></span>
+      <span class="meta">layout</span>
+    </a>
+    <a class="track-row" href="pages/responsive-design.html">
+      <span class="idx">07</span>
+      <span><span class="title">Responsive design</span><div class="desc">Media queries, container queries, fluid type with clamp(), mobile-first.</div></span>
+      <span class="meta">layout</span>
+    </a>
+    <a class="track-row" href="pages/typography-color.html">
+      <span class="idx">08</span>
+      <span><span class="title">Typography &amp; color</span><div class="desc">Font loading, the color spaces, gradients, color-mix(), accessible contrast.</div></span>
+      <span class="meta">visual</span>
+    </a>
+    <a class="track-row" href="pages/custom-properties.html">
+      <span class="idx">09</span>
+      <span><span class="title">Custom properties</span><div class="desc">CSS variables, theming, fallback values, @property, JS interop.</div></span>
+      <span class="meta">visual</span>
+    </a>
+    <a class="track-row" href="pages/animations-transitions.html">
+      <span class="idx">10</span>
+      <span><span class="title">Animation &amp; transitions</span><div class="desc">transition vs animation, transforms, timing functions, performance.</div></span>
+      <span class="meta">visual</span>
+    </a>
+    <a class="track-row" href="pages/modern-css.html">
+      <span class="idx">11</span>
+      <span><span class="title">Modern CSS (2023–2026)</span><div class="desc">:has(), nesting, @layer, @container, scroll-driven animation, color-mix.</div></span>
+      <span class="meta">advanced</span>
+    </a>
+    <a class="track-row" href="pages/architecture-methodologies.html">
+      <span class="idx">12</span>
+      <span><span class="title">Architecture &amp; methodologies</span><div class="desc">BEM, SMACSS, ITCSS, utility-first CSS, scaling a codebase.</div></span>
+      <span class="meta">advanced</span>
+    </a>
+    <a class="track-row" href="pages/preprocessors.html">
+      <span class="idx">13</span>
+      <span><span class="title">Preprocessors &amp; tooling</span><div class="desc">Sass/SCSS, Less, PostCSS, autoprefixer, and what native CSS replaced.</div></span>
+      <span class="meta">tooling</span>
+    </a>
+    <a class="track-row" href="pages/frameworks.html">
+      <span class="idx">14</span>
+      <span><span class="title">Frameworks &amp; libraries</span><div class="desc">Tailwind, Bootstrap, Bulma, open-props — how to pick and how they work.</div></span>
+      <span class="meta">tooling</span>
+    </a>
+  </div>
+</main>
+
+<main class="container path-section">
+  <span class="section-label"><span class="p">display</span>: <span class="v">extras</span>;</span>
+  <h2>Practice &amp; interview prep</h2>
+  <div class="grid grid-3">
+    <div class="card">
+      <span class="tag">practice</span>
+      <h3>Build-along projects</h3>
+      <p>Three practical projects — pricing cards, a dashboard layout, a CSS-only carousel — with starter code and a working solution.</p>
+      <a class="card-link" href="projects/index.html">View projects →</a>
+    </div>
+    <div class="card">
+      <span class="tag">interview</span>
+      <h3>Interview questions</h3>
+      <p>60+ real CSS interview questions from junior to senior level, with plain-English answers and follow-up traps to expect.</p>
+      <a class="card-link" href="interview/index.html">Start prepping →</a>
+    </div>
+    <div class="card">
+      <span class="tag">reference</span>
+      <h3>Cheatsheet</h3>
+      <p>One dense page: flexbox/grid quick reference, selector table, units table, and common gotchas — built for skimming.</p>
+      <a class="card-link" href="reference/cheatsheet.html">Open cheatsheet →</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>css.ai — an open-source, practical CSS reference. Content adapted and explained in plain English, with pointers to <a href="https://developer.mozilla.org/en-US/docs/Web/CSS" target="_blank" rel="noopener">MDN</a> for full spec text.</span>
+    <span>Built with HTML, CSS &amp; vanilla JS — no build step.</span>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

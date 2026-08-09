@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Responsive Design — css.ai</title>
+<meta name="description" content="Media queries, container queries, fluid type with clamp(), and mobile-first workflow." />
+<link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container">
+    <a class="brand" href="../index.html">css<span>.ai</span></a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#tracks">Guides</a>
+      <a href="../interview/index.html">Interview Q&amp;A</a>
+      <a href="../projects/index.html">Projects</a>
+      <a href="../reference/cheatsheet.html">Cheatsheet</a>
+      <a href="https://github.com/" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle menu">menu</button>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="container">
+    <span class="eyebrow">guide 7 / 14 · layout</span>
+    <h1>Responsive design</h1>
+    <p class="lede" style="max-width:680px">Designing layouts that adapt to the viewport, the container, and the person's preferences, not just whether it fits on a phone.</p>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="side-toc">
+    <h4>On this page</h4>
+    <a href="#mobile-first">Mobile-first</a>
+    <a href="#media-queries">Media queries</a>
+    <a href="#container-queries">Container queries</a>
+    <a href="#fluid-type">Fluid type with clamp()</a>
+    <a href="#preference">Preference-based queries</a>
+    <a href="#interview">Interview angle</a>
+
+    <h4 style="margin-top:28px">Guides</h4>
+    <a href="fundamentals.html" >01. Fundamentals</a>
+    <a href="selectors-specificity.html" >02. Selectors &amp; specificity</a>
+    <a href="box-model.html" >03. Box model</a>
+    <a href="flexbox.html" >04. Flexbox</a>
+    <a href="grid.html" >05. Grid</a>
+    <a href="positioning-stacking.html" >06. Positioning</a>
+    <a href="responsive-design.html" class="active">07. Responsive design</a>
+    <a href="typography-color.html" >08. Typography &amp; color</a>
+    <a href="custom-properties.html" >09. Custom properties</a>
+    <a href="animations-transitions.html" >10. Animation</a>
+    <a href="modern-css.html" >11. Modern CSS</a>
+    <a href="architecture-methodologies.html" >12. Architecture</a>
+    <a href="preprocessors.html" >13. Preprocessors</a>
+    <a href="frameworks.html" >14. Frameworks</a>
+  </aside>
+
+  <article class="content">
+
+    <section id="mobile-first">
+      <h2>Mobile-first</h2>
+      <p>Write base styles for the smallest screen, then use <code>min-width</code> media queries to layer on complexity as space increases. This keeps mobile fast (it isn't fighting overrides) and tends to produce simpler CSS than writing for desktop and un-doing it for mobile with <code>max-width</code> queries.</p>
+      <div class="code-block">
+        <div class="code-label"><span>mobile-first.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-sel">.cards</span> { <span class="tok-prop">display</span>: <span class="tok-val">grid</span>; <span class="tok-prop">gap</span>: <span class="tok-val">16px</span>; } <span class="tok-cmt">/* one column by default */</span>
+
+<span class="tok-at">@media</span> (<span class="tok-prop">min-width</span>: <span class="tok-val">640px</span>) {
+  <span class="tok-sel">.cards</span> { <span class="tok-prop">grid-template-columns</span>: <span class="tok-val">repeat(2, 1fr)</span>; }
+}
+<span class="tok-at">@media</span> (<span class="tok-prop">min-width</span>: <span class="tok-val">1024px</span>) {
+  <span class="tok-sel">.cards</span> { <span class="tok-prop">grid-template-columns</span>: <span class="tok-val">repeat(3, 1fr)</span>; }
+}</pre>
+      </div>
+    </section>
+
+    <section id="media-queries">
+      <h2>Media queries</h2>
+      <table>
+        <thead><tr><th>Feature</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td>Width</td><td><code>@media (min-width: 768px)</code></td></tr>
+          <tr><td>Orientation</td><td><code>@media (orientation: landscape)</code></td></tr>
+          <tr><td>Hover capability</td><td><code>@media (hover: hover)</code> — true touch devices report <code>none</code></td></tr>
+          <tr><td>Pointer precision</td><td><code>@media (pointer: coarse)</code> — touch vs mouse</td></tr>
+          <tr><td>Combine conditions</td><td><code>@media (min-width: 768px) and (max-width: 1023px)</code></td></tr>
+        </tbody>
+      </table>
+      <div class="callout tip">
+        <span class="callout-title">Range syntax</span>
+        <p>Modern browsers support comparison-style ranges: <code>@media (768px &lt;= width &lt; 1024px)</code> — more readable than <code>min-width</code>/<code>max-width</code> pairs.</p>
+      </div>
+    </section>
+
+    <section id="container-queries">
+      <h2>Container queries</h2>
+      <p>Media queries respond to the <em>viewport</em>. Container queries respond to a component's <em>own container's</em> size — meaning the same card component can react to being placed in a narrow sidebar or a wide main column, independent of screen size.</p>
+      <div class="code-block">
+        <div class="code-label"><span>container-queries.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-sel">.card-wrapper</span> {
+  <span class="tok-prop">container-type</span>: <span class="tok-val">inline-size</span>; <span class="tok-cmt">/* opt this element in as a query container */</span>
+  <span class="tok-prop">container-name</span>: <span class="tok-val">card</span>;
+}
+
+<span class="tok-at">@container</span> <span class="tok-val">card</span> (<span class="tok-prop">min-width</span>: <span class="tok-val">400px</span>) {
+  <span class="tok-sel">.card</span> { <span class="tok-prop">grid-template-columns</span>: <span class="tok-val">120px 1fr</span>; } <span class="tok-cmt">/* image beside text once there's room */</span>
+}</pre>
+      </div>
+    </section>
+
+    <section id="fluid-type">
+      <h2>Fluid type with clamp()</h2>
+      <p><code>clamp(min, preferred, max)</code> replaces a stack of media queries just for font-size with one line that scales smoothly:</p>
+      <div class="code-block">
+        <div class="code-label"><span>fluid-type.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-sel">h1</span> {
+  <span class="tok-cmt">/* never smaller than 2rem, never larger than 3.5rem,
+     otherwise scales with viewport width */</span>
+  <span class="tok-prop">font-size</span>: <span class="tok-val">clamp(2rem, 1.2rem + 3vw, 3.5rem)</span>;
+}</pre>
+      </div>
+    </section>
+
+    <section id="preference">
+      <h2>User-preference queries</h2>
+      <div class="code-block">
+        <div class="code-label"><span>preferences.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-at">@media</span> (<span class="tok-prop">prefers-color-scheme</span>: <span class="tok-val">dark</span>) { <span class="tok-cmt">/* system dark mode */</span> }
+<span class="tok-at">@media</span> (<span class="tok-prop">prefers-reduced-motion</span>: <span class="tok-val">reduce</span>) { <span class="tok-cmt">/* respect motion sensitivity */</span>
+  <span class="tok-sel">*</span> { <span class="tok-prop">animation-duration</span>: <span class="tok-val">0.01ms !important</span>; }
+}
+<span class="tok-at">@media</span> (<span class="tok-prop">prefers-contrast</span>: <span class="tok-val">more</span>) { <span class="tok-cmt">/* accessibility setting */</span> }</pre>
+      </div>
+      <p>This site respects <code>prefers-reduced-motion</code> — check the bottom of <a href="../assets/css/style.css" target="_blank">style.css</a> for the pattern.</p>
+    </section>
+
+    <section id="interview" class="callout interview">
+      <span class="callout-title">Interview angle</span>
+      <p><strong>Q: Media query vs container query — when does each apply?</strong> Media queries describe the viewport/device; container queries describe a specific element's own box. Reach for container queries when a reusable component (a card, a widget) needs to adapt based on where it's dropped, not on screen size. More in the <a href="../interview/index.html">interview guide</a>.</p>
+    </section>
+
+  </article>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>css.ai — an open-source, practical CSS reference.</span>
+    <a href="../index.html">Back to home</a>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

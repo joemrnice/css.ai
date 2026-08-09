@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Project: Pricing Cards — css.ai</title>
+<link rel="stylesheet" href="../../assets/css/style.css" />
+<style>
+  /* ============================================================
+     PROJECT STYLES — pricing cards
+     Everything below this line is the actual project. It's
+     deliberately kept separate from the site's own design system
+     so you can lift it wholesale into your own codebase.
+     ============================================================ */
+  .demo-shell {
+    background: #f5f6fa;
+    border-radius: var(--radius-lg);
+    padding: 56px 24px;
+    margin: 30px 0 10px;
+  }
+
+  .pricing {
+    --pricing-accent: #6c5ce7;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: center;
+    max-width: 1000px;
+    margin: 0 auto;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .plan {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 32px 28px;
+    flex: 1 1 260px;
+    max-width: 300px;
+    box-shadow: 0 1px 2px rgba(20,20,43,0.06), 0 8px 24px rgba(20,20,43,0.06);
+    display: flex;
+    flex-direction: column;
+    color: #1c1c28;
+  }
+
+  .plan h3 { margin: 0 0 6px; font-size: 1.1rem; color: #1c1c28; }
+  .plan .price { font-size: 2.4rem; font-weight: 700; margin: 6px 0 2px; }
+  .plan .price span { font-size: 0.95rem; font-weight: 500; color: #6b6f80; }
+  .plan .tagline { color: #6b6f80; font-size: 0.9rem; margin-bottom: 20px; }
+
+  .plan ul { list-style: none; padding: 0; margin: 0 0 28px; flex: 1; }
+  .plan li {
+    padding: 9px 0; border-bottom: 1px solid #eef0f5;
+    font-size: 0.92rem; color: #3d3f4d;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .plan li::before { content: '✓'; color: var(--pricing-accent); font-weight: 700; }
+  .plan li.off { color: #b3b6c2; }
+  .plan li.off::before { content: '—'; color: #c9cbd6; }
+
+  .plan .cta {
+    display: block; text-align: center; padding: 12px; border-radius: 10px;
+    font-weight: 600; font-size: 0.92rem; text-decoration: none;
+    background: #f1f1f6; color: #1c1c28; transition: transform 0.15s, background 0.15s;
+  }
+  .plan .cta:hover { background: #e4e4ee; transform: translateY(-1px); text-decoration: none; }
+
+  /* the "featured" plan pops out of the row — this is the one
+     interesting layout trick in this component */
+  .plan.featured {
+    background: linear-gradient(160deg, var(--pricing-accent), #4834d4);
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 20px 40px rgba(108,92,231,0.35);
+    position: relative;
+    z-index: 1; /* sit above neighbors so the scale doesn't visually clip under them */
+  }
+  .plan.featured h3,
+  .plan.featured .price,
+  .plan.featured .price span,
+  .plan.featured .tagline,
+  .plan.featured li { color: white; }
+  .plan.featured li { border-bottom-color: rgba(255,255,255,0.18); }
+  .plan.featured li::before { color: white; }
+  .plan.featured .badge {
+    position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+    background: #1c1c28; color: white; font-size: 0.72rem; font-weight: 700;
+    padding: 4px 14px; border-radius: 20px; letter-spacing: 0.03em;
+  }
+  .plan.featured .cta { background: white; color: var(--pricing-accent); }
+  .plan.featured .cta:hover { background: #f2f2ff; }
+
+  /* responsive: stack to one column and undo the scale-pop so it
+     doesn't visually collide with its neighbors on narrow screens */
+  @media (max-width: 720px) {
+    .pricing { flex-direction: column; align-items: center; }
+    .plan, .plan.featured { max-width: 340px; width: 100%; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container">
+    <a class="brand" href="../../index.html">css<span>.ai</span></a>
+    <div class="nav-links">
+      <a href="../../index.html">Home</a>
+      <a href="../../index.html#tracks">Guides</a>
+      <a href="../../interview/index.html">Interview Q&amp;A</a>
+      <a href="../index.html" class="active">Projects</a>
+      <a href="../../reference/cheatsheet.html">Cheatsheet</a>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle menu">menu</button>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="container">
+    <span class="eyebrow">project 01 · flexbox · custom properties</span>
+    <h1>Pricing cards</h1>
+    <p class="lede" style="max-width:680px">A three-tier pricing row with a featured card that visually pops out — the layout trick is a <code>transform: scale()</code> plus a <code>z-index</code> bump, not special markup.</p>
+  </div>
+</header>
+
+<main class="container" style="padding:20px 24px 100px;">
+
+  <div class="demo-shell">
+    <div class="pricing">
+      <div class="plan">
+        <h3>Starter</h3>
+        <div class="price">$9<span>/mo</span></div>
+        <p class="tagline">For solo projects getting off the ground.</p>
+        <ul>
+          <li>1 project</li>
+          <li>5GB storage</li>
+          <li>Community support</li>
+          <li class="off">Custom domains</li>
+          <li class="off">Team seats</li>
+        </ul>
+        <a class="cta" href="#">Choose Starter</a>
+      </div>
+
+      <div class="plan featured">
+        <span class="badge">MOST POPULAR</span>
+        <h3>Pro</h3>
+        <div class="price">$29<span>/mo</span></div>
+        <p class="tagline">For growing teams that ship weekly.</p>
+        <ul>
+          <li>Unlimited projects</li>
+          <li>100GB storage</li>
+          <li>Priority support</li>
+          <li>Custom domains</li>
+          <li class="off">SSO</li>
+        </ul>
+        <a class="cta" href="#">Choose Pro</a>
+      </div>
+
+      <div class="plan">
+        <h3>Enterprise</h3>
+        <div class="price">$99<span>/mo</span></div>
+        <p class="tagline">For orgs that need control at scale.</p>
+        <ul>
+          <li>Unlimited everything</li>
+          <li>1TB storage</li>
+          <li>Dedicated support</li>
+          <li>Custom domains</li>
+          <li>SSO &amp; audit logs</li>
+        </ul>
+        <a class="cta" href="#">Contact sales</a>
+      </div>
+    </div>
+  </div>
+
+  <section style="margin-top:48px">
+    <h2>How it's built</h2>
+    <ul>
+      <li><strong>Row layout:</strong> <code>display: flex; flex-wrap: wrap;</code> on <code>.pricing</code> — cards use <code>flex: 1 1 260px</code> so they grow evenly and wrap to fewer columns before overflowing.</li>
+      <li><strong>The "pop out" effect:</strong> <code>.featured</code> gets <code>transform: scale(1.05)</code> and a heavier <code>box-shadow</code>, plus <code>z-index: 1</code> so its shadow and scaled edges render above its neighbors instead of behind them.</li>
+      <li><strong>The badge:</strong> positioned with <code>position: absolute; top: -12px; left: 50%; transform: translateX(-50%);</code> — the classic centered-overflow-badge pattern, anchored to <code>.featured</code>'s own <code>position: relative</code> (inherited here from <code>.plan</code> being a flex item, which is itself not a positioning context — note <code>.plan.featured</code> gets <code>position: relative</code> explicitly for this reason).</li>
+      <li><strong>Disabled features:</strong> a <code>.off</code> class swaps the checkmark for a dash via <code>::before</code> and dims the text — no separate icon asset needed.</li>
+      <li><strong>Responsive:</strong> at 720px the row becomes a column and <code>transform: none</code> removes the scale-pop, since it would otherwise visually collide with cards above/below it once stacked.</li>
+    </ul>
+    <div class="callout interview">
+      <span class="callout-title">Try extending it</span>
+      <p>Add a monthly/yearly toggle that swaps the displayed price using a CSS custom property and a checkbox + the <code>:checked</code> selector — no JavaScript required. Hint: read the <a href="../../pages/custom-properties.html">custom properties guide</a> and the <code>:checked</code> row in <a href="../../pages/selectors-specificity.html">selectors</a>.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>css.ai — an open-source, practical CSS reference.</span>
+    <a href="../../index.html">Back to home</a>
+  </div>
+</footer>
+
+</body>
+</html>

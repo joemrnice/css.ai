@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Animation & Transitions — css.ai</title>
+<meta name="description" content="transition vs animation, transforms, timing functions, and animation performance." />
+<link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container">
+    <a class="brand" href="../index.html">css<span>.ai</span></a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#tracks">Guides</a>
+      <a href="../interview/index.html">Interview Q&amp;A</a>
+      <a href="../projects/index.html">Projects</a>
+      <a href="../reference/cheatsheet.html">Cheatsheet</a>
+      <a href="https://github.com/" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle menu">menu</button>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="container">
+    <span class="eyebrow">guide 10 / 14 · visual</span>
+    <h1>Animation &amp; transitions</h1>
+    <p class="lede" style="max-width:680px">Motion that responds to state changes (transitions) versus motion that runs on its own timeline (animations) - and how to keep both running at 60fps.</p>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="side-toc">
+    <h4>On this page</h4>
+    <a href="#transition-vs-animation">transition vs animation</a>
+    <a href="#transitions">Transitions</a>
+    <a href="#transform">Transform</a>
+    <a href="#keyframes">Keyframe animations</a>
+    <a href="#timing">Timing functions</a>
+    <a href="#performance">Performance: what to animate</a>
+    <a href="#interview">Interview angle</a>
+
+    <h4 style="margin-top:28px">Guides</h4>
+    <a href="fundamentals.html" >01. Fundamentals</a>
+    <a href="selectors-specificity.html" >02. Selectors &amp; specificity</a>
+    <a href="box-model.html" >03. Box model</a>
+    <a href="flexbox.html" >04. Flexbox</a>
+    <a href="grid.html" >05. Grid</a>
+    <a href="positioning-stacking.html" >06. Positioning</a>
+    <a href="responsive-design.html" >07. Responsive design</a>
+    <a href="typography-color.html" >08. Typography &amp; color</a>
+    <a href="custom-properties.html" >09. Custom properties</a>
+    <a href="animations-transitions.html" class="active">10. Animation</a>
+    <a href="modern-css.html" >11. Modern CSS</a>
+    <a href="architecture-methodologies.html" >12. Architecture</a>
+    <a href="preprocessors.html" >13. Preprocessors</a>
+    <a href="frameworks.html" >14. Frameworks</a>
+  </aside>
+
+  <article class="content">
+
+    <section id="transition-vs-animation">
+      <h2>transition vs animation</h2>
+      <table>
+        <thead><tr><th></th><th><code>transition</code></th><th><code>animation</code></th></tr></thead>
+        <tbody>
+          <tr><td>Trigger</td><td>A property value changing (hover, class toggle, JS)</td><td>Runs automatically once applied, on its own timeline</td></tr>
+          <tr><td>States</td><td>Two — start and end</td><td>Any number, via <code>@keyframes</code></td></tr>
+          <tr><td>Looping</td><td>No</td><td>Yes, with <code>animation-iteration-count</code></td></tr>
+          <tr><td>Typical use</td><td>Hover states, focus states, toggles</td><td>Loaders, entrance sequences, looping effects</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="transitions">
+      <h2>Transitions</h2>
+      <div class="code-block">
+        <div class="code-label"><span>transitions.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-sel">.button</span> {
+  <span class="tok-prop">transition</span>: <span class="tok-val">background-color 0.2s ease, transform 0.15s ease</span>;
+}
+<span class="tok-sel">.button:hover</span> {
+  <span class="tok-prop">background-color</span>: <span class="tok-val">#93b4fa</span>;
+  <span class="tok-prop">transform</span>: <span class="tok-val">translateY(-2px)</span>;
+}</pre>
+      </div>
+      <div class="callout warn">
+        <span class="callout-title">transition: all is a footgun</span>
+        <p><code>transition: all 0.2s;</code> transitions every animatable property that changes - including ones you didn't intend, like layout shifts from unrelated JS. List properties explicitly for predictable, cheaper transitions.</p>
+      </div>
+    </section>
+
+    <section id="transform">
+      <h2>Transform</h2>
+      <div class="code-block">
+        <div class="code-label"><span>transform.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-prop">transform</span>: <span class="tok-val">translate(20px, -10px)</span>;
+<span class="tok-prop">transform</span>: <span class="tok-val">scale(1.05)</span>;
+<span class="tok-prop">transform</span>: <span class="tok-val">rotate(8deg)</span>;
+<span class="tok-prop">transform</span>: <span class="tok-val">skew(-4deg)</span>;
+<span class="tok-prop">transform</span>: <span class="tok-val">translate(-50%, -50%)</span>; <span class="tok-cmt">/* combined with top/left: 50% — perfect centering */</span>
+<span class="tok-prop">transform-origin</span>: <span class="tok-val">top left</span>; <span class="tok-cmt">/* pivot point for scale/rotate, default is center */</span></pre>
+      </div>
+      <p>Transforms don't affect document flow or trigger layout recalculation in sibling elements - which is exactly why they're the performant choice for movement, over animating <code>top</code>/<code>left</code>/<code>margin</code>.</p>
+    </section>
+
+    <section id="keyframes">
+      <h2>Keyframe animations</h2>
+      <div class="code-block">
+        <div class="code-label"><span>keyframes.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-at">@keyframes</span> <span class="tok-sel">pulse</span> {
+  <span class="tok-val">0%</span>, <span class="tok-val">100%</span> { <span class="tok-prop">opacity</span>: <span class="tok-val">1</span>; }
+  <span class="tok-val">50%</span>       { <span class="tok-prop">opacity</span>: <span class="tok-val">0.4</span>; }
+}
+
+<span class="tok-sel">.skeleton</span> {
+  <span class="tok-prop">animation</span>: <span class="tok-val">pulse 1.6s ease-in-out infinite</span>;
+}
+
+<span class="tok-cmt">/* shorthand order: name duration timing-function delay iteration-count direction fill-mode */</span>
+<span class="tok-sel">.entrance</span> {
+  <span class="tok-prop">animation</span>: <span class="tok-val">slide-up 0.4s ease-out 0.1s 1 normal both</span>;
+}</pre>
+      </div>
+      <p><code>animation-fill-mode: both</code> is easy to forget and causes a common bug: the element snaps back to its pre-animation state (or flashes unstyled) right before the animation starts, or right after it ends, because the animation's styles don't apply outside its active duration by default.</p>
+    </section>
+
+    <section id="timing">
+      <h2>Timing functions</h2>
+      <table>
+        <thead><tr><th>Function</th><th>Feel</th></tr></thead>
+        <tbody>
+          <tr><td><code>ease</code></td><td>Default - starts fast, slows at the end. Good general-purpose choice.</td></tr>
+          <tr><td><code>ease-in</code></td><td>Slow start, fast finish - good for elements leaving the screen</td></tr>
+          <tr><td><code>ease-out</code></td><td>Fast start, slow finish - good for elements entering the screen</td></tr>
+          <tr><td><code>linear</code></td><td>Constant speed - good for continuous loops (spinners, marquees)</td></tr>
+          <tr><td><code>cubic-bezier(x1,y1,x2,y2)</code></td><td>Fully custom curve, including overshoot/bounce effects</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="performance">
+      <h2>Performance: what to animate</h2>
+      <p>Browsers can animate <code>transform</code> and <code>opacity</code> on the compositor thread, off the main thread, so they stay smooth even while JavaScript is busy. Animating <code>width</code>, <code>height</code>, <code>top</code>, <code>left</code>, or <code>margin</code> triggers layout recalculation on every frame, which is far more expensive.</p>
+      <div class="callout tip">
+        <span class="callout-title">will-change, used sparingly</span>
+        <p><code>will-change: transform;</code> hints the browser to promote an element to its own compositor layer ahead of time. Apply it right before an animation starts and remove it after - leaving it on permanently wastes memory on every layer it creates.</p>
+      </div>
+    </section>
+
+    <section id="interview" class="callout interview">
+      <span class="callout-title">Interview angle</span>
+      <p><strong>Q: Why are transform and opacity considered the "safe" properties to animate?</strong> They can be handled by the compositor without triggering layout or paint on every frame, unlike properties that affect box geometry. Be ready to name which properties are cheap vs expensive. More in the <a href="../interview/index.html">interview guide</a>.</p>
+    </section>
+
+  </article>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>css.ai — an open-source, practical CSS reference.</span>
+    <a href="../index.html">Back to home</a>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

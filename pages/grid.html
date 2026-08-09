@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CSS Grid — css.ai</title>
+<meta name="description" content="Tracks, areas, fr units, auto-fit vs auto-fill, and subgrid." />
+<link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container">
+    <a class="brand" href="../index.html">css<span>.ai</span></a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#tracks">Guides</a>
+      <a href="../interview/index.html">Interview Q&amp;A</a>
+      <a href="../projects/index.html">Projects</a>
+      <a href="../reference/cheatsheet.html">Cheatsheet</a>
+      <a href="https://github.com/" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle menu">menu</button>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="container">
+    <span class="eyebrow">guide 5 / 14 · layout</span>
+    <h1>CSS Grid</h1>
+    <p class="lede" style="max-width:680px">A two-dimensional layout system — rows and columns at the same time. Where flexbox distributes items along one line, grid places them on an actual coordinate system.</p>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="side-toc">
+    <h4>On this page</h4>
+    <a href="#tracks">Defining tracks</a>
+    <a href="#fr">The fr unit</a>
+    <a href="#areas">Named areas</a>
+    <a href="#placement">Placing items</a>
+    <a href="#auto-fit">auto-fit vs auto-fill</a>
+    <a href="#subgrid">Subgrid</a>
+    <a href="#interview">Interview angle</a>
+
+    <h4 style="margin-top:28px">Guides</h4>
+    <a href="fundamentals.html" >01. Fundamentals</a>
+    <a href="selectors-specificity.html" >02. Selectors &amp; specificity</a>
+    <a href="box-model.html" >03. Box model</a>
+    <a href="flexbox.html" >04. Flexbox</a>
+    <a href="grid.html" class="active">05. Grid</a>
+    <a href="positioning-stacking.html" >06. Positioning</a>
+    <a href="responsive-design.html" >07. Responsive design</a>
+    <a href="typography-color.html" >08. Typography &amp; color</a>
+    <a href="custom-properties.html" >09. Custom properties</a>
+    <a href="animations-transitions.html" >10. Animation</a>
+    <a href="modern-css.html" >11. Modern CSS</a>
+    <a href="architecture-methodologies.html" >12. Architecture</a>
+    <a href="preprocessors.html" >13. Preprocessors</a>
+    <a href="frameworks.html" >14. Frameworks</a>
+  </aside>
+
+  <article class="content">
+
+    <section id="tracks">
+      <h2>Defining tracks</h2>
+      <div class="code-block">
+        <div class="code-label"><span>grid-basics.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-sel">.layout</span> {
+  <span class="tok-prop">display</span>: <span class="tok-val">grid</span>;
+  <span class="tok-prop">grid-template-columns</span>: <span class="tok-val">240px 1fr</span>;   <span class="tok-cmt">/* sidebar + fluid content */</span>
+  <span class="tok-prop">grid-template-rows</span>: <span class="tok-val">auto 1fr auto</span>;  <span class="tok-cmt">/* header, content, footer */</span>
+  <span class="tok-prop">gap</span>: <span class="tok-val">24px</span>;
+}</pre>
+      </div>
+      <p><code>repeat()</code> avoids writing the same track size many times: <code>grid-template-columns: repeat(4, 1fr);</code> is four equal columns.</p>
+    </section>
+
+    <section id="fr">
+      <h2>The fr unit</h2>
+      <p><code>fr</code> represents a fraction of the leftover space <em>after</em> fixed-size tracks and gaps are subtracted — not a fraction of the whole container. <code>grid-template-columns: 200px 1fr 2fr;</code> gives the second column one share of what's left and the third column two shares.</p>
+      <div class="callout tip">
+        <span class="callout-title">min-content trap</span>
+        <p>An <code>fr</code> track still won't shrink below its content's <code>min-content</code> size by default — a long unbreakable word can blow out a grid. Fix it with <code>minmax(0, 1fr)</code> instead of plain <code>1fr</code>.</p>
+      </div>
+    </section>
+
+    <section id="areas">
+      <h2>Named areas</h2>
+      <p><code>grid-template-areas</code> lets you literally draw the layout in the CSS:</p>
+      <div class="code-block">
+        <div class="code-label"><span>areas.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-sel">.page</span> {
+  <span class="tok-prop">display</span>: <span class="tok-val">grid</span>;
+  <span class="tok-prop">grid-template-columns</span>: <span class="tok-val">220px 1fr</span>;
+  <span class="tok-prop">grid-template-areas</span>:
+    <span class="tok-str">"sidebar header"</span>
+    <span class="tok-str">"sidebar main"</span>
+    <span class="tok-str">"sidebar footer"</span>;
+}
+<span class="tok-sel">.sidebar</span> { <span class="tok-prop">grid-area</span>: <span class="tok-val">sidebar</span>; }
+<span class="tok-sel">header</span>   { <span class="tok-prop">grid-area</span>: <span class="tok-val">header</span>; }
+<span class="tok-sel">main</span>     { <span class="tok-prop">grid-area</span>: <span class="tok-val">main</span>; }
+<span class="tok-sel">footer</span>   { <span class="tok-prop">grid-area</span>: <span class="tok-val">footer</span>; }</pre>
+      </div>
+      <p>This is especially powerful combined with a media query — redefine <code>grid-template-areas</code> at a breakpoint and every child automatically moves, with zero changes to markup or the children's own CSS.</p>
+    </section>
+
+    <section id="placement">
+      <h2>Placing items by line number</h2>
+      <div class="code-block">
+        <div class="code-label"><span>placement.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-sel">.hero-image</span> {
+  <span class="tok-prop">grid-column</span>: <span class="tok-val">1 / 3</span>;   <span class="tok-cmt">/* from line 1 to line 3 — spans 2 columns */</span>
+  <span class="tok-prop">grid-row</span>: <span class="tok-val">1 / span 2</span>; <span class="tok-cmt">/* start at line 1, span 2 rows */</span>
+}</pre>
+      </div>
+      <p>Grid lines are numbered starting at 1, and <code>-1</code> always refers to the last line — handy for "span to the end" without knowing the exact column count.</p>
+    </section>
+
+    <section id="auto-fit">
+      <h2>auto-fit vs auto-fill</h2>
+      <p>The classic responsive-cards-with-no-media-query pattern:</p>
+      <div class="code-block">
+        <div class="code-label"><span>responsive-grid.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-sel">.cards</span> {
+  <span class="tok-prop">display</span>: <span class="tok-val">grid</span>;
+  <span class="tok-prop">grid-template-columns</span>: <span class="tok-val">repeat(auto-fit, minmax(220px, 1fr))</span>;
+  <span class="tok-prop">gap</span>: <span class="tok-val">20px</span>;
+}</pre>
+      </div>
+      <p>Both create as many 220px+ columns as fit. The difference only shows when there are <em>fewer items than columns that would fit</em>: <code>auto-fill</code> keeps the empty tracks (items stay their minmax width, don't stretch), while <code>auto-fit</code> collapses empty tracks to 0 and lets existing items stretch to fill the row.</p>
+    </section>
+
+    <section id="subgrid">
+      <h2>Subgrid</h2>
+      <p>Normally a grid item's own children can't align to the parent grid's tracks — <code>grid-template-columns: subgrid</code> fixes that, letting a nested grid inherit its parent's track sizing so, for example, card titles and prices align across a row of independently-sized cards.</p>
+      <div class="code-block">
+        <div class="code-label"><span>subgrid.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-sel">.card</span> {
+  <span class="tok-prop">display</span>: <span class="tok-val">grid</span>;
+  <span class="tok-prop">grid-row</span>: <span class="tok-val">span 3</span>;
+  <span class="tok-prop">grid-template-rows</span>: <span class="tok-val">subgrid</span>; <span class="tok-cmt">/* inherit the parent grid's row tracks */</span>
+}</pre>
+      </div>
+    </section>
+
+    <section id="interview" class="callout interview">
+      <span class="callout-title">Interview angle</span>
+      <p><strong>Q: Flexbox or Grid — which do you reach for?</strong> Grid when you're laying out two dimensions at once (rows <em>and</em> columns) or need explicit placement; flexbox when you're distributing items along a single line and want content to dictate sizing. Many real layouts use both — grid for the page skeleton, flexbox inside individual components. More in the <a href="../interview/index.html">interview guide</a>.</p>
+    </section>
+
+  </article>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>css.ai — an open-source, practical CSS reference.</span>
+    <a href="../index.html">Back to home</a>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

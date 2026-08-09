@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CSS Fundamentals — css.ai</title>
+<meta name="description" content="CSS syntax, how the cascade works, inheritance, and the units you'll actually use." />
+<link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container">
+    <a class="brand" href="../index.html">css<span>.ai</span></a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#tracks">Guides</a>
+      <a href="../interview/index.html">Interview Q&amp;A</a>
+      <a href="../projects/index.html">Projects</a>
+      <a href="../reference/cheatsheet.html">Cheatsheet</a>
+      <a href="https://github.com/" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle menu">menu</button>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="container">
+    <span class="eyebrow">guide 01 / 14 · core</span>
+    <h1>Fundamentals</h1>
+    <p class="lede" style="max-width:680px">How a browser reads a stylesheet, why the "cascade" is the whole point of CSS, how inheritance actually spreads styles, and the units you'll reach for daily.</p>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="side-toc">
+    <h4>On this page</h4>
+    <a href="#syntax">Syntax &amp; rule anatomy</a>
+    <a href="#cascade">The cascade</a>
+    <a href="#inheritance">Inheritance</a>
+    <a href="#units">Units &amp; values</a>
+    <a href="#applying">Ways to apply CSS</a>
+    <a href="#interview">Interview angle</a>
+
+    <h4 style="margin-top:28px">Guides</h4>
+    <a href="fundamentals.html" class="active">01. Fundamentals</a>
+    <a href="selectors-specificity.html">02. Selectors &amp; specificity</a>
+    <a href="box-model.html">03. Box model</a>
+    <a href="flexbox.html">04. Flexbox</a>
+    <a href="grid.html">05. Grid</a>
+    <a href="positioning-stacking.html">06. Positioning</a>
+    <a href="responsive-design.html">07. Responsive design</a>
+    <a href="typography-color.html">08. Typography &amp; color</a>
+    <a href="custom-properties.html">09. Custom properties</a>
+    <a href="animations-transitions.html">10. Animation</a>
+    <a href="modern-css.html">11. Modern CSS</a>
+    <a href="architecture-methodologies.html">12. Architecture</a>
+    <a href="preprocessors.html">13. Preprocessors</a>
+    <a href="frameworks.html">14. Frameworks</a>
+  </aside>
+
+  <article class="content">
+
+    <section id="syntax">
+      <h2>Syntax &amp; rule anatomy</h2>
+      <p>A CSS <strong>rule</strong> pairs a <strong>selector</strong> (what to style) with a <strong>declaration block</strong> (how to style it). Each declaration is a <code>property: value;</code> pair.</p>
+
+      <div class="code-block">
+        <div class="code-label"><span>style.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-sel">.card</span> {
+  <span class="tok-prop">background-color</span>: <span class="tok-val">#12161f</span>;
+  <span class="tok-prop">border-radius</span>: <span class="tok-val">10px</span>;
+  <span class="tok-prop">padding</span>: <span class="tok-val">1.5rem</span>;
+}
+
+<span class="tok-cmt">/* multiple selectors sharing one block */</span>
+<span class="tok-sel">h1, h2, h3</span> {
+  <span class="tok-prop">font-family</span>: <span class="tok-val">"Space Grotesk", sans-serif</span>;
+}</pre>
+      </div>
+
+      <p>Every declaration ends with a semicolon — the browser is forgiving about the last one in a block, but leaving it off is a common source of copy-paste bugs, so always include it.</p>
+
+      <div class="callout">
+        <span class="callout-title">Whitespace &amp; case</span>
+        <p>CSS ignores whitespace between tokens. Property names and keyword values are case-insensitive, but class names, IDs, and URLs are case-sensitive (they're compared like file paths on most systems).</p>
+      </div>
+    </section>
+
+    <section id="cascade">
+      <h2>The cascade</h2>
+      <p>"Cascading" is where CSS gets its name. When multiple rules target the same element and the same property, the browser has to pick a winner. It does that in this order:</p>
+
+      <table>
+        <thead><tr><th>Order</th><th>What decides it</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Origin &amp; importance</td><td>User-agent styles → user styles → author styles → author <code>!important</code> → user <code>!important</code></td></tr>
+          <tr><td>2</td><td>Cascade layers (<code>@layer</code>)</td><td>Later-declared layers win over earlier ones, regardless of specificity, within the same origin</td></tr>
+          <tr><td>3</td><td>Specificity</td><td>ID beats class beats type — see the <a href="selectors-specificity.html">selectors guide</a></td></tr>
+          <tr><td>4</td><td>Source order</td><td>If everything above ties, the last rule declared wins</td></tr>
+        </tbody>
+      </table>
+
+      <p>In practice: browsers ship default styles (a <code>&lt;h1&gt;</code> is bold and large before you write a line of CSS). Your author styles override those. Within your own styles, specificity and then source order break ties.</p>
+
+      <div class="callout warn">
+        <span class="callout-title">Common trap</span>
+        <p><code>!important</code> doesn't "turn off" the cascade — it just jumps a declaration to a higher-priority bucket. Two <code>!important</code> declarations on the same property still get resolved by specificity and source order underneath. Overusing it is what makes stylesheets unmaintainable, not the cascade itself.</p>
+      </div>
+    </section>
+
+    <section id="inheritance">
+      <h2>Inheritance</h2>
+      <p>Some properties automatically pass their computed value down to descendant elements unless overridden — mostly text-related properties like <code>color</code>, <code>font-family</code>, <code>font-size</code>, <code>line-height</code>, and <code>text-align</code>. Box-model properties like <code>margin</code>, <code>padding</code>, <code>border</code>, and <code>width</code> do <strong>not</strong> inherit — if they did, every nested element would inherit its parent's margin, which would be unusable.</p>
+
+      <div class="code-block">
+        <div class="code-label"><span>inheritance.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-sel">body</span> {
+  <span class="tok-prop">color</span>: <span class="tok-val">#1a1a1a</span>;      <span class="tok-cmt">/* inherits down to every child */</span>
+  <span class="tok-prop">font-size</span>: <span class="tok-val">16px</span>;   <span class="tok-cmt">/* inherits, and % children compute from it */</span>
+}
+
+<span class="tok-sel">.widget</span> {
+  <span class="tok-prop">color</span>: <span class="tok-val">inherit</span>;    <span class="tok-cmt">/* explicitly take the parent's value */</span>
+  <span class="tok-prop">all</span>: <span class="tok-val">unset</span>;       <span class="tok-cmt">/* reset everything, then inherit only what you want */</span>
+}</pre>
+      </div>
+
+      <p>Every property also accepts three universal keyword values regardless of whether it normally inherits:</p>
+      <ul>
+        <li><code>inherit</code> — force it to take the parent's computed value.</li>
+        <li><code>initial</code> — reset to the property's specification-defined default.</li>
+        <li><code>unset</code> — acts like <code>inherit</code> for naturally-inheriting properties, <code>initial</code> otherwise.</li>
+        <li><code>revert</code> — roll back to the browser's default (user-agent) stylesheet value.</li>
+      </ul>
+    </section>
+
+    <section id="units">
+      <h2>Units &amp; values</h2>
+      <h3>Absolute units</h3>
+      <p><code>px</code> is the only absolute unit you'll use regularly on screen — 1px is a fixed CSS pixel (not necessarily one physical device pixel). <code>cm</code>, <code>mm</code>, <code>in</code>, <code>pt</code> exist mainly for print stylesheets.</p>
+
+      <h3>Relative units</h3>
+      <table>
+        <thead><tr><th>Unit</th><th>Relative to</th><th>Typical use</th></tr></thead>
+        <tbody>
+          <tr><td><code>%</code></td><td>The parent's corresponding dimension</td><td>Fluid widths, responsive images</td></tr>
+          <tr><td><code>em</code></td><td>The element's own <code>font-size</code> (or parent's, for <code>font-size</code> itself)</td><td>Spacing that should scale with local text size</td></tr>
+          <tr><td><code>rem</code></td><td>The root (<code>&lt;html&gt;</code>) <code>font-size</code></td><td>Predictable global sizing — the default choice for type scales</td></tr>
+          <tr><td><code>vw</code> / <code>vh</code></td><td>1% of viewport width / height</td><td>Full-bleed sections, hero heights</td></tr>
+          <tr><td><code>vmin</code> / <code>vmax</code></td><td>The smaller / larger of vw or vh</td><td>Square elements that scale with the smallest dimension</td></tr>
+          <tr><td><code>ch</code></td><td>The width of the "0" character in the current font</td><td>Constraining text measure, e.g. <code>max-width: 65ch</code></td></tr>
+          <tr><td><code>fr</code></td><td>A fraction of free space in a grid container</td><td>Grid track sizing only</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout tip">
+        <span class="callout-title">Rule of thumb</span>
+        <p>Use <code>rem</code> for font sizes and spacing (predictable, respects the user's browser zoom/font settings), <code>%</code> or <code>fr</code> for layout widths, and reach for <code>px</code> only for things that genuinely shouldn't scale — like a 1px hairline border.</p>
+      </div>
+
+      <h3>Functional values</h3>
+      <p><code>calc()</code>, <code>min()</code>, <code>max()</code>, and <code>clamp()</code> let you mix units and compute values at run time:</p>
+      <div class="code-block">
+        <div class="code-label"><span>functions.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-sel">.sidebar</span> {
+  <span class="tok-prop">width</span>: <span class="tok-val">calc(100% - 240px)</span>;
+}
+
+<span class="tok-sel">h1</span> {
+  <span class="tok-cmt">/* min, preferred, max — fluid type in one line */</span>
+  <span class="tok-prop">font-size</span>: <span class="tok-val">clamp(1.75rem, 4vw + 1rem, 3.25rem)</span>;
+}</pre>
+      </div>
+    </section>
+
+    <section id="applying">
+      <h2>Ways to apply CSS</h2>
+      <ol>
+        <li><strong>External stylesheet</strong> — <code>&lt;link rel="stylesheet" href="style.css"&gt;</code>. The standard approach: cacheable, keeps markup clean.</li>
+        <li><strong>Internal <code>&lt;style&gt;</code></strong> — inside <code>&lt;head&gt;</code>. Useful for single-page demos or critical above-the-fold CSS.</li>
+        <li><strong>Inline <code>style="..."</code></strong> — on the element itself. Highest author specificity short of <code>!important</code>; generally avoided in maintained codebases because it can't be overridden by a class and doesn't cache.</li>
+      </ol>
+    </section>
+
+    <section id="interview" class="callout interview">
+      <span class="callout-title">Interview angle</span>
+      <p><strong>Q: What's the difference between <code>inherit</code>, <code>initial</code>, <code>unset</code>, and <code>revert</code>?</strong> Explain that inheritance depends on whether the property is naturally-inheriting, and that <code>unset</code> is context-sensitive between the two. See more in the <a href="../interview/index.html">full interview guide</a>.</p>
+    </section>
+
+  </article>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>css.ai — an open-source, practical CSS reference.</span>
+    <a href="../index.html">Back to home</a>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

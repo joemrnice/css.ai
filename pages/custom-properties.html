@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Custom Properties (CSS Variables) — css.ai</title>
+<meta name="description" content="CSS variables, theming, fallback values, @property, and JS interop." />
+<link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container">
+    <a class="brand" href="../index.html">css<span>.ai</span></a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#tracks">Guides</a>
+      <a href="../interview/index.html">Interview Q&amp;A</a>
+      <a href="../projects/index.html">Projects</a>
+      <a href="../reference/cheatsheet.html">Cheatsheet</a>
+      <a href="https://github.com/" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle menu">menu</button>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="container">
+    <span class="eyebrow">guide 9 / 14 · visual</span>
+    <h1>Custom properties</h1>
+    <p class="lede" style="max-width:680px">Native CSS variables: runtime, cascade-aware, and inheritable, a genuinely different tool from a preprocessor's compile-time variables.</p>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="side-toc">
+    <h4>On this page</h4>
+    <a href="#basics">Declaring &amp; using</a>
+    <a href="#cascade-scope">Cascade &amp; scope</a>
+    <a href="#fallbacks">Fallback values</a>
+    <a href="#theming">Theming with variables</a>
+    <a href="#at-property">@property</a>
+    <a href="#js-interop">Reading/writing from JS</a>
+    <a href="#interview">Interview angle</a>
+
+    <h4 style="margin-top:28px">Guides</h4>
+    <a href="fundamentals.html" >01. Fundamentals</a>
+    <a href="selectors-specificity.html" >02. Selectors &amp; specificity</a>
+    <a href="box-model.html" >03. Box model</a>
+    <a href="flexbox.html" >04. Flexbox</a>
+    <a href="grid.html" >05. Grid</a>
+    <a href="positioning-stacking.html" >06. Positioning</a>
+    <a href="responsive-design.html" >07. Responsive design</a>
+    <a href="typography-color.html" >08. Typography &amp; color</a>
+    <a href="custom-properties.html" class="active">09. Custom properties</a>
+    <a href="animations-transitions.html" >10. Animation</a>
+    <a href="modern-css.html" >11. Modern CSS</a>
+    <a href="architecture-methodologies.html" >12. Architecture</a>
+    <a href="preprocessors.html" >13. Preprocessors</a>
+    <a href="frameworks.html" >14. Frameworks</a>
+  </aside>
+
+  <article class="content">
+
+    <section id="basics">
+      <h2>Declaring &amp; using</h2>
+      <div class="code-block">
+        <div class="code-label"><span>variables.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-sel">:root</span> {
+  <span class="tok-prop">--brand</span>: <span class="tok-val">#7aa2f7</span>;
+  <span class="tok-prop">--space-md</span>: <span class="tok-val">1rem</span>;
+  <span class="tok-prop">--radius</span>: <span class="tok-val">10px</span>;
+}
+
+<span class="tok-sel">.button</span> {
+  <span class="tok-prop">background</span>: <span class="tok-val">var(--brand)</span>;
+  <span class="tok-prop">padding</span>: <span class="tok-val">var(--space-md)</span>;
+  <span class="tok-prop">border-radius</span>: <span class="tok-val">var(--radius)</span>;
+}</pre>
+      </div>
+      <p>Custom property names are case-sensitive and must start with two dashes. Unlike Sass variables, they're real values the browser resolves at render time — they participate in the cascade and can be changed live via JavaScript or media queries.</p>
+    </section>
+
+    <section id="cascade-scope">
+      <h2>Cascade &amp; scope</h2>
+      <p>A custom property declared on any selector is scoped to that element and inherits down to its descendants — it's not global unless declared on <code>:root</code> (the <code>&lt;html&gt;</code> element). This means you can redefine the same variable name at different points in the tree:</p>
+      <div class="code-block">
+        <div class="code-label"><span>scoped-variables.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-sel">:root</span>        { <span class="tok-prop">--gap</span>: <span class="tok-val">16px</span>; }
+<span class="tok-sel">.compact</span>     { <span class="tok-prop">--gap</span>: <span class="tok-val">8px</span>; } <span class="tok-cmt">/* overridden inside .compact and its children */</span>
+<span class="tok-sel">.stack</span>       { <span class="tok-prop">gap</span>: <span class="tok-val">var(--gap)</span>; }</pre>
+      </div>
+    </section>
+
+    <section id="fallbacks">
+      <h2>Fallback values</h2>
+      <div class="code-block">
+        <div class="code-label"><span>fallbacks.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-prop">color</span>: <span class="tok-val">var(--text-color, #1a1a1a)</span>; <span class="tok-cmt">/* used if --text-color is unset */</span></pre>
+      </div>
+      <p>The fallback only kicks in if the variable is <em>unset</em> — if it's set to an invalid value for that property, the property falls back to its own initial value or inherited value instead (this is called "computed value time" invalidation), not to your fallback string.</p>
+    </section>
+
+    <section id="theming">
+      <h2>Theming with variables</h2>
+      <div class="code-block">
+        <div class="code-label"><span>theming.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-sel">:root</span> {
+  <span class="tok-prop">--bg</span>: <span class="tok-val">#ffffff</span>;
+  <span class="tok-prop">--fg</span>: <span class="tok-val">#111111</span>;
+}
+<span class="tok-sel">[data-theme="dark"]</span> {
+  <span class="tok-prop">--bg</span>: <span class="tok-val">#0b0e14</span>;
+  <span class="tok-prop">--fg</span>: <span class="tok-val">#e8eaed</span>;
+}
+<span class="tok-sel">body</span> { <span class="tok-prop">background</span>: <span class="tok-val">var(--bg)</span>; <span class="tok-prop">color</span>: <span class="tok-val">var(--fg)</span>; }</pre>
+      </div>
+      <p>Toggle the theme by flipping <code>data-theme</code> on <code>&lt;html&gt;</code> in JS — no stylesheet swap, no flash, and the whole tree updates because every color derives from these two variables.</p>
+    </section>
+
+    <section id="at-property">
+      <h2>@property — typed custom properties</h2>
+      <p>Plain custom properties are untyped strings, which means the browser can't animate them (it doesn't know how to interpolate between two arbitrary strings). <code>@property</code> registers a variable with a real syntax and default, making it animatable:</p>
+      <div class="code-block">
+        <div class="code-label"><span>at-property.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-at">@property</span> <span class="tok-sel">--angle</span> {
+  <span class="tok-prop">syntax</span>: <span class="tok-str">"&lt;angle&gt;"</span>;
+  <span class="tok-prop">inherits</span>: <span class="tok-val">false</span>;
+  <span class="tok-prop">initial-value</span>: <span class="tok-val">0deg</span>;
+}
+<span class="tok-sel">.spinner</span> {
+  <span class="tok-prop">background</span>: <span class="tok-val">conic-gradient(from var(--angle), #7aa2f7, transparent)</span>;
+  <span class="tok-prop">transition</span>: <span class="tok-val">--angle 0.6s ease</span>; <span class="tok-cmt">/* now this actually animates smoothly */</span>
+}
+<span class="tok-sel">.spinner:hover</span> { <span class="tok-prop">--angle</span>: <span class="tok-val">360deg</span>; }</pre>
+      </div>
+    </section>
+
+    <section id="js-interop">
+      <h2>Reading/writing from JS</h2>
+      <div class="code-block">
+        <div class="code-label"><span>interop.js</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-cmt">// read a computed custom property</span>
+<span class="tok-val">const</span> brand = getComputedStyle(document.documentElement)
+  .getPropertyValue(<span class="tok-str">'--brand'</span>).trim();
+
+<span class="tok-cmt">// write one — every consumer updates instantly</span>
+document.documentElement.style.setProperty(<span class="tok-str">'--brand'</span>, <span class="tok-str">'#e0af68'</span>);</pre>
+      </div>
+    </section>
+
+    <section id="interview" class="callout interview">
+      <span class="callout-title">Interview angle</span>
+      <p><strong>Q: CSS variables vs Sass variables — what's the real difference?</strong> Sass variables are compile-time text substitution and gone by the time CSS ships; custom properties are live in the browser, inherit through the DOM, can be scoped per-element, changed by media queries or JS, and read at render time. More in the <a href="../interview/index.html">interview guide</a>.</p>
+    </section>
+
+  </article>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>css.ai — an open-source, practical CSS reference.</span>
+    <a href="../index.html">Back to home</a>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

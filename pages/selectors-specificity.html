@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Selectors & Specificity — css.ai</title>
+<meta name="description" content="Every CSS selector type, combinators, and how specificity is calculated." />
+<link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container">
+    <a class="brand" href="../index.html">css<span>.ai</span></a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#tracks">Guides</a>
+      <a href="../interview/index.html">Interview Q&amp;A</a>
+      <a href="../projects/index.html">Projects</a>
+      <a href="../reference/cheatsheet.html">Cheatsheet</a>
+      <a href="https://github.com/" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle menu">menu</button>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="container">
+    <span class="eyebrow">guide 2 / 14 · core</span>
+    <h1>Selectors &amp; specificity</h1>
+    <p class="lede" style="max-width:680px">The single most useful skill in CSS: picking exactly the right elements, and knowing which rule wins when two selectors disagree.</p>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="side-toc">
+    <h4>On this page</h4>
+    <a href="#basic">Basic selectors</a>
+    <a href="#combinators">Combinators</a>
+    <a href="#pseudo">Pseudo-classes &amp; elements</a>
+    <a href="#attribute">Attribute selectors</a>
+    <a href="#modern-sel">:is(), :where(), :has()</a>
+    <a href="#specificity">Specificity, step by step</a>
+    <a href="#interview">Interview angle</a>
+
+    <h4 style="margin-top:28px">Guides</h4>
+    <a href="fundamentals.html" >01. Fundamentals</a>
+    <a href="selectors-specificity.html" class="active">02. Selectors &amp; specificity</a>
+    <a href="box-model.html" >03. Box model</a>
+    <a href="flexbox.html" >04. Flexbox</a>
+    <a href="grid.html" >05. Grid</a>
+    <a href="positioning-stacking.html" >06. Positioning</a>
+    <a href="responsive-design.html" >07. Responsive design</a>
+    <a href="typography-color.html" >08. Typography &amp; color</a>
+    <a href="custom-properties.html" >09. Custom properties</a>
+    <a href="animations-transitions.html" >10. Animation</a>
+    <a href="modern-css.html" >11. Modern CSS</a>
+    <a href="architecture-methodologies.html" >12. Architecture</a>
+    <a href="preprocessors.html" >13. Preprocessors</a>
+    <a href="frameworks.html" >14. Frameworks</a>
+  </aside>
+
+  <article class="content">
+
+    <section id="basic">
+      <h2>Basic selectors</h2>
+      <table>
+        <thead><tr><th>Selector</th><th>Matches</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><code>*</code></td><td>Every element</td><td><code>* { box-sizing: border-box; }</code></td></tr>
+          <tr><td><code>type</code></td><td>All elements of that tag</td><td><code>p { }</code>, <code>section { }</code></td></tr>
+          <tr><td><code>.class</code></td><td>Elements with that class</td><td><code>.card { }</code></td></tr>
+          <tr><td><code>#id</code></td><td>The single element with that ID</td><td><code>#site-header { }</code></td></tr>
+          <tr><td><code>a, b</code></td><td>Grouping — matches either</td><td><code>h1, h2, h3 { }</code></td></tr>
+        </tbody>
+      </table>
+      <div class="callout tip">
+        <span class="callout-title">Class over ID</span>
+        <p>Reach for classes, not IDs, when styling. IDs have high specificity that's hard to override later, and an ID must be unique per page — a class can be reused freely.</p>
+      </div>
+    </section>
+
+    <section id="combinators">
+      <h2>Combinators</h2>
+      <div class="code-block">
+        <div class="code-label"><span>combinators.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-sel">.card p</span>       { <span class="tok-cmt">/* descendant — any depth inside .card */</span> }
+<span class="tok-sel">.card > p</span>     { <span class="tok-cmt">/* direct child only */</span> }
+<span class="tok-sel">h2 + p</span>        { <span class="tok-cmt">/* adjacent sibling — the p immediately after h2 */</span> }
+<span class="tok-sel">h2 ~ p</span>        { <span class="tok-cmt">/* general sibling — any p after h2, same parent */</span> }</pre>
+      </div>
+      <p>The adjacent-sibling combinator (<code>+</code>) is the classic way to add spacing between stacked elements without a wrapper: <code>* + * { margin-top: 1rem; }</code> — sometimes called the "lobotomized owl" selector.</p>
+    </section>
+
+    <section id="pseudo">
+      <h2>Pseudo-classes &amp; pseudo-elements</h2>
+      <p><strong>Pseudo-classes</strong> (one colon) target elements in a particular <em>state</em>. <strong>Pseudo-elements</strong> (two colons, by modern convention) target a sub-part of an element that isn't in the DOM.</p>
+      <table>
+        <thead><tr><th>Pseudo-class</th><th>Matches</th></tr></thead>
+        <tbody>
+          <tr><td><code>:hover</code> / <code>:focus</code> / <code>:active</code></td><td>Interaction states</td></tr>
+          <tr><td><code>:first-child</code> / <code>:last-child</code></td><td>Position among siblings, any type</td></tr>
+          <tr><td><code>:nth-child(2n)</code></td><td>Formula-based position — <code>2n</code> is every even child</td></tr>
+          <tr><td><code>:not(.disabled)</code></td><td>Excludes matches</td></tr>
+          <tr><td><code>:checked</code> / <code>:disabled</code> / <code>:required</code></td><td>Form element state</td></tr>
+          <tr><td><code>:focus-visible</code></td><td>Focus shown only for keyboard users, not mouse clicks</td></tr>
+        </tbody>
+      </table>
+      <div class="code-block">
+        <div class="code-label"><span>pseudo-elements.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-sel">.tooltip::before</span> {
+  <span class="tok-prop">content</span>: <span class="tok-str">"ⓘ"</span>;
+  <span class="tok-prop">margin-right</span>: <span class="tok-val">4px</span>;
+}
+<span class="tok-sel">p::first-line</span> { <span class="tok-prop">font-weight</span>: <span class="tok-val">600</span>; }
+<span class="tok-sel">input::placeholder</span> { <span class="tok-prop">color</span>: <span class="tok-val">#8a8f9c</span>; }</pre>
+      </div>
+      <div class="callout warn">
+        <span class="callout-title">Gotcha</span>
+        <p><code>::before</code>/<code>::after</code> need a <code>content</code> property to render — even an empty string, <code>content: "";</code>, works and is common for decorative shapes.</p>
+      </div>
+    </section>
+
+    <section id="attribute">
+      <h2>Attribute selectors</h2>
+      <div class="code-block">
+        <div class="code-label"><span>attributes.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-sel">[disabled]</span>              { <span class="tok-cmt">/* has the attribute, any value */</span> }
+<span class="tok-sel">[type="checkbox"]</span>       { <span class="tok-cmt">/* exact match */</span> }
+<span class="tok-sel">[class~="tag"]</span>          { <span class="tok-cmt">/* one word in a space-separated list */</span> }
+<span class="tok-sel">[href^="https"]</span>         { <span class="tok-cmt">/* starts with */</span> }
+<span class="tok-sel">[href$=".pdf"]</span>          { <span class="tok-cmt">/* ends with */</span> }
+<span class="tok-sel">[href*="docs"]</span>          { <span class="tok-cmt">/* contains, anywhere */</span> }</pre>
+      </div>
+    </section>
+
+    <section id="modern-sel">
+      <h2>:is(), :where(), and :has()</h2>
+      <p><code>:is()</code> and <code>:where()</code> both accept a selector list and match any of them — they exist to shorten repetitive selectors:</p>
+      <div class="code-block">
+        <div class="code-label"><span>is-where.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-cmt">/* instead of repeating the descendant combinator four times */</span>
+<span class="tok-sel">:is(article, aside, section, nav) h2</span> {
+  <span class="tok-prop">margin-top</span>: <span class="tok-val">0</span>;
+}</pre>
+      </div>
+      <p>The difference: <code>:is()</code> takes on the specificity of its <em>most specific</em> argument; <code>:where()</code> always has zero specificity, which makes it ideal for base/reset styles you want to stay trivially overridable.</p>
+      <p><code>:has()</code> is the "parent selector" CSS lacked for years — it matches an element based on what's <em>inside</em> it:</p>
+      <div class="code-block">
+        <div class="code-label"><span>has.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-cmt">/* style a form field wrapper only when it contains an invalid input */</span>
+<span class="tok-sel">.field:has(input:invalid)</span> {
+  <span class="tok-prop">border-color</span>: <span class="tok-val">#f7768e</span>;
+}
+<span class="tok-cmt">/* a card that has an image gets different padding than one that doesn't */</span>
+<span class="tok-sel">.card:has(img)</span> { <span class="tok-prop">padding-top</span>: <span class="tok-val">0</span>; }</pre>
+      </div>
+    </section>
+
+    <section id="specificity">
+      <h2>Specificity, step by step</h2>
+      <p>Specificity is scored as a tuple <strong>(inline, IDs, classes/attributes/pseudo-classes, types/pseudo-elements)</strong>. Compare left to right — the first column that differs decides the winner. It is <em>not</em> a base-10 score, so ten classes never beat one ID.</p>
+      <table>
+        <thead><tr><th>Selector</th><th>(id, class, type)</th></tr></thead>
+        <tbody>
+          <tr><td><code>div</code></td><td>(0, 0, 1)</td></tr>
+          <tr><td><code>.card</code></td><td>(0, 1, 0)</td></tr>
+          <tr><td><code>.card.featured</code></td><td>(0, 2, 0)</td></tr>
+          <tr><td><code>#hero</code></td><td>(1, 0, 0)</td></tr>
+          <tr><td><code>nav ul li a.active</code></td><td>(0, 1, 3)</td></tr>
+        </tbody>
+      </table>
+      <p>Try the calculator on the <a href="../index.html#tracks">homepage hero</a> — it scores any selector you type live.</p>
+    </section>
+
+    <section id="interview" class="callout interview">
+      <span class="callout-title">Interview angle</span>
+      <p><strong>Q: Which wins — <code>#nav .active</code> or <code>.nav-item.active.current</code>?</strong> The ID selector wins regardless of how many classes are stacked on the other side, because IDs are compared before classes. Full answer in the <a href="../interview/index.html">interview guide</a>.</p>
+    </section>
+
+  </article>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>css.ai — an open-source, practical CSS reference.</span>
+    <a href="../index.html">Back to home</a>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Flexbox — css.ai</title>
+<meta name="description" content="Main/cross axis, grow/shrink/basis, alignment, and common flex recipes." />
+<link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container">
+    <a class="brand" href="../index.html">css<span>.ai</span></a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#tracks">Guides</a>
+      <a href="../interview/index.html">Interview Q&amp;A</a>
+      <a href="../projects/index.html">Projects</a>
+      <a href="../reference/cheatsheet.html">Cheatsheet</a>
+      <a href="https://github.com/" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle menu">menu</button>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="container">
+    <span class="eyebrow">guide 4 / 14 · layout</span>
+    <h1>Flexbox</h1>
+    <p class="lede" style="max-width:680px">A one-dimensional layout model built for distributing space along a single axis — the tool for navbars, toolbars, card rows, and centering things once and for all.</p>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="side-toc">
+    <h4>On this page</h4>
+    <a href="#axes">The two axes</a>
+    <a href="#container">Container properties</a>
+    <a href="#items">Item properties</a>
+    <a href="#grow-shrink">grow, shrink, basis</a>
+    <a href="#recipes">Common recipes</a>
+    <a href="#interview">Interview angle</a>
+
+    <h4 style="margin-top:28px">Guides</h4>
+    <a href="fundamentals.html" >01. Fundamentals</a>
+    <a href="selectors-specificity.html" >02. Selectors &amp; specificity</a>
+    <a href="box-model.html" >03. Box model</a>
+    <a href="flexbox.html" class="active">04. Flexbox</a>
+    <a href="grid.html" >05. Grid</a>
+    <a href="positioning-stacking.html" >06. Positioning</a>
+    <a href="responsive-design.html" >07. Responsive design</a>
+    <a href="typography-color.html" >08. Typography &amp; color</a>
+    <a href="custom-properties.html" >09. Custom properties</a>
+    <a href="animations-transitions.html" >10. Animation</a>
+    <a href="modern-css.html" >11. Modern CSS</a>
+    <a href="architecture-methodologies.html" >12. Architecture</a>
+    <a href="preprocessors.html" >13. Preprocessors</a>
+    <a href="frameworks.html" >14. Frameworks</a>
+  </aside>
+
+  <article class="content">
+
+    <section id="axes">
+      <h2>The two axes</h2>
+      <p>Flexbox lays children out along a <strong>main axis</strong> (set by <code>flex-direction</code>) and can align them along the perpendicular <strong>cross axis</strong>. This mental model explains every flex property — they all either distribute space on the main axis or align items on the cross axis.</p>
+      <div class="code-block">
+        <div class="code-label"><span>flex-basics.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-sel">.row</span> {
+  <span class="tok-prop">display</span>: <span class="tok-val">flex</span>;
+  <span class="tok-prop">flex-direction</span>: <span class="tok-val">row</span>;    <span class="tok-cmt">/* main axis = horizontal (default) */</span>
+}
+<span class="tok-sel">.stack</span> {
+  <span class="tok-prop">display</span>: <span class="tok-val">flex</span>;
+  <span class="tok-prop">flex-direction</span>: <span class="tok-val">column</span>; <span class="tok-cmt">/* main axis = vertical */</span>
+}</pre>
+      </div>
+    </section>
+
+    <section id="container">
+      <h2>Container properties</h2>
+      <table>
+        <thead><tr><th>Property</th><th>Controls</th><th>Common values</th></tr></thead>
+        <tbody>
+          <tr><td><code>justify-content</code></td><td>Distribution along the main axis</td><td><code>flex-start</code>, <code>center</code>, <code>space-between</code>, <code>space-around</code>, <code>space-evenly</code></td></tr>
+          <tr><td><code>align-items</code></td><td>Alignment along the cross axis</td><td><code>stretch</code> (default), <code>center</code>, <code>flex-start</code>, <code>flex-end</code>, <code>baseline</code></td></tr>
+          <tr><td><code>align-content</code></td><td>Spacing between <em>wrapped lines</em> (needs <code>flex-wrap: wrap</code> and extra cross-axis space)</td><td>Same values as justify-content</td></tr>
+          <tr><td><code>flex-wrap</code></td><td>Whether items wrap to new lines</td><td><code>nowrap</code> (default), <code>wrap</code>, <code>wrap-reverse</code></td></tr>
+          <tr><td><code>gap</code></td><td>Space between items — replaces margin hacks</td><td><code>16px</code>, <code>1rem 2rem</code></td></tr>
+        </tbody>
+      </table>
+      <div class="callout tip">
+        <span class="callout-title">Center anything, one line</span>
+        <p><code>display: flex; align-items: center; justify-content: center;</code> — the answer to "how do I center a div" that used to require negative margins and guesswork.</p>
+      </div>
+    </section>
+
+    <section id="items">
+      <h2>Item properties</h2>
+      <table>
+        <thead><tr><th>Property</th><th>Effect</th></tr></thead>
+        <tbody>
+          <tr><td><code>align-self</code></td><td>Overrides the container's <code>align-items</code> for one item</td></tr>
+          <tr><td><code>order</code></td><td>Visually reorders items without touching markup (default <code>0</code>; lower comes first)</td></tr>
+          <tr><td><code>flex</code></td><td>Shorthand for <code>flex-grow flex-shrink flex-basis</code></td></tr>
+        </tbody>
+      </table>
+      <div class="callout warn">
+        <span class="callout-title">order and accessibility</span>
+        <p><code>order</code> only changes visual/tab order in some browsers inconsistently — screen readers still follow DOM order. Don't use it to fix content that's in the wrong place in the markup.</p>
+      </div>
+    </section>
+
+    <section id="grow-shrink">
+      <h2>grow, shrink, and basis</h2>
+      <div class="code-block">
+        <div class="code-label"><span>flex-shorthand.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-sel">.item</span> {
+  <span class="tok-prop">flex-grow</span>: <span class="tok-val">0</span>;    <span class="tok-cmt">/* share of *extra* space this item takes, relative to siblings */</span>
+  <span class="tok-prop">flex-shrink</span>: <span class="tok-val">1</span>;  <span class="tok-cmt">/* how much this item shrinks when space is too tight */</span>
+  <span class="tok-prop">flex-basis</span>: <span class="tok-val">auto</span>; <span class="tok-cmt">/* starting size before grow/shrink is applied */</span>
+}
+
+<span class="tok-cmt">/* the three most common shorthands */</span>
+<span class="tok-sel">.fixed</span>    { <span class="tok-prop">flex</span>: <span class="tok-val">none</span>; }         <span class="tok-cmt">/* 0 0 auto — never grow or shrink */</span>
+<span class="tok-sel">.flexible</span> { <span class="tok-prop">flex</span>: <span class="tok-val">1</span>; }            <span class="tok-cmt">/* 1 1 0% — fill and share space equally */</span>
+<span class="tok-sel">.min-220</span>  { <span class="tok-prop">flex</span>: <span class="tok-val">1 1 220px</span>; }    <span class="tok-cmt">/* grow/shrink starting from 220px */</span></pre>
+      </div>
+      <p>The most-misunderstood part: <code>flex: 1</code> sets <code>flex-basis: 0%</code>, not <code>auto</code> — every item starts from zero and grows purely by ratio, ignoring its content size as a starting point. That's different from <code>flex: 1 1 auto</code>, which starts from the content's natural size first.</p>
+    </section>
+
+    <section id="recipes">
+      <h2>Common recipes</h2>
+      <div class="code-block">
+        <div class="code-label"><span>navbar.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-cmt">/* logo left, links right, vertically centered */</span>
+<span class="tok-sel">.navbar</span> {
+  <span class="tok-prop">display</span>: <span class="tok-val">flex</span>;
+  <span class="tok-prop">align-items</span>: <span class="tok-val">center</span>;
+  <span class="tok-prop">justify-content</span>: <span class="tok-val">space-between</span>;
+}
+
+<span class="tok-cmt">/* equal-width card row that wraps on small screens */</span>
+<span class="tok-sel">.card-row</span> {
+  <span class="tok-prop">display</span>: <span class="tok-val">flex</span>;
+  <span class="tok-prop">flex-wrap</span>: <span class="tok-val">wrap</span>;
+  <span class="tok-prop">gap</span>: <span class="tok-val">20px</span>;
+}
+<span class="tok-sel">.card-row > *</span> {
+  <span class="tok-prop">flex</span>: <span class="tok-val">1 1 240px</span>; <span class="tok-cmt">/* grow, shrink, never below 240px */</span>
+}
+
+<span class="tok-cmt">/* sticky footer pattern */</span>
+<span class="tok-sel">body</span> { <span class="tok-prop">display</span>: <span class="tok-val">flex</span>; <span class="tok-prop">flex-direction</span>: <span class="tok-val">column</span>; <span class="tok-prop">min-height</span>: <span class="tok-val">100vh</span>; }
+<span class="tok-sel">main</span> { <span class="tok-prop">flex</span>: <span class="tok-val">1</span>; }</pre>
+      </div>
+    </section>
+
+    <section id="interview" class="callout interview">
+      <span class="callout-title">Interview angle</span>
+      <p><strong>Q: What's the difference between <code>flex: 1</code> and <code>flex: auto</code>?</strong> Both grow and shrink, but <code>flex: 1</code> ignores the content's natural size (basis 0%) while <code>flex: auto</code> uses it as the starting point (basis auto) — so items with more content start larger. Full walkthrough in the <a href="../interview/index.html">interview guide</a>.</p>
+    </section>
+
+  </article>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>css.ai — an open-source, practical CSS reference.</span>
+    <a href="../index.html">Back to home</a>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Projects — css.ai</title>
+<meta name="description" content="Practical, build-along CSS projects: pricing cards, a dashboard layout, and a CSS-only carousel." />
+<link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container">
+    <a class="brand" href="../index.html">css<span>.ai</span></a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#tracks">Guides</a>
+      <a href="../interview/index.html">Interview Q&amp;A</a>
+      <a href="index.html" class="active">Projects</a>
+      <a href="../reference/cheatsheet.html">Cheatsheet</a>
+      <a href="https://github.com/" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle menu">menu</button>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="container">
+    <span class="eyebrow">3 projects · build along</span>
+    <h1>Projects</h1>
+    <p class="lede" style="max-width:680px">Reading is not the same as building. Each project below is a real, common UI pattern — open the finished demo, then open the source to see exactly how it's built, property by property.</p>
+  </div>
+</header>
+
+<main class="container" style="padding:40px 24px 100px;">
+  <div class="grid grid-3">
+    <div class="card">
+      <span class="tag">flexbox · grid · custom properties</span>
+      <h3>Pricing cards</h3>
+      <p>Three-tier pricing layout with a "featured" card that pops out of the row, responsive down to a single column, built with flexbox and CSS variables for theming.</p>
+      <a class="card-link" href="project-01-pricing-cards/index.html">Open project →</a>
+    </div>
+    <div class="card">
+      <span class="tag">grid · positioning · responsive</span>
+      <h3>Dashboard layout</h3>
+      <p>A classic app shell — fixed sidebar, sticky header, scrollable main content — using grid-template-areas that fully reflow at a mobile breakpoint.</p>
+      <a class="card-link" href="project-02-dashboard-layout/index.html">Open project →</a>
+    </div>
+    <div class="card">
+      <span class="tag">scroll-snap · no javascript</span>
+      <h3>CSS-only carousel</h3>
+      <p>A swipeable image carousel with snap points and visible dot indicators — built entirely with <code>scroll-snap</code> and the <code>:target</code> pseudo-class, zero JavaScript.</p>
+      <a class="card-link" href="project-03-css-carousel/index.html">Open project →</a>
+    </div>
+  </div>
+
+  <div class="callout tip" style="margin-top:36px">
+    <span class="callout-title">How to use these</span>
+    <p>Every project page is a single self-contained HTML file with its CSS inline in a <code>&lt;style&gt;</code> block, so you can view-source in the browser and see the whole thing in one place — copy it straight into your own repo and start modifying.</p>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>css.ai — an open-source, practical CSS reference.</span>
+    <a href="../index.html">Back to home</a>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

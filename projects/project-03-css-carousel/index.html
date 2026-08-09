@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Project: CSS-only Carousel — css.ai</title>
+<link rel="stylesheet" href="../../assets/css/style.css" />
+<style>
+  .demo-shell { background: #0f1117; border-radius: var(--radius-lg); padding: 40px 24px; margin: 30px 0 10px; border: 1px solid #232838; }
+
+  .carousel {
+    position: relative;
+    max-width: 560px;
+    margin: 0 auto;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* the track: a horizontally scrolling flex row with snap points */
+  .carousel-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;   /* forces the scroll to always rest on a slide */
+    scroll-behavior: smooth;
+    border-radius: 14px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;           /* hide the native scrollbar, dots replace it */
+  }
+  .carousel-track::-webkit-scrollbar { display: none; }
+
+  .slide {
+    flex: 0 0 100%;                  /* each slide takes the full width, never shrinks */
+    scroll-snap-align: start;        /* this edge is what the browser snaps to */
+    height: 260px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    color: white;
+    scroll-margin-top: 0;
+  }
+  .slide:nth-child(1) { background: linear-gradient(135deg,#7aa2f7,#4c6ef5); }
+  .slide:nth-child(2) { background: linear-gradient(135deg,#e0af68,#d97706); }
+  .slide:nth-child(3) { background: linear-gradient(135deg,#9ece6a,#4d9e3e); }
+  .slide:nth-child(4) { background: linear-gradient(135deg,#f7768e,#c2437d); }
+
+  .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-top: 16px; }
+  .carousel-dots a {
+    width: 8px; height: 8px; border-radius: 50%; background: #333750;
+    display: block; text-decoration: none;
+  }
+  /* highlight the dot matching the slide currently in view, via :target */
+  .slide:target { scroll-margin-top: 0; }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container">
+    <a class="brand" href="../../index.html">css<span>.ai</span></a>
+    <div class="nav-links">
+      <a href="../../index.html">Home</a>
+      <a href="../../index.html#tracks">Guides</a>
+      <a href="../../interview/index.html">Interview Q&amp;A</a>
+      <a href="../index.html" class="active">Projects</a>
+      <a href="../../reference/cheatsheet.html">Cheatsheet</a>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle menu">menu</button>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="container">
+    <span class="eyebrow">project 03 · scroll-snap · zero javascript</span>
+    <h1>CSS-only carousel</h1>
+    <p class="lede" style="max-width:680px">A swipeable, snap-to-slide carousel with dot navigation — the whole thing is <code>scroll-snap</code> plus native scrolling. Swipe or drag the track below; no JavaScript is loaded on this page.</p>
+  </div>
+</header>
+
+<main class="container" style="padding:20px 24px 100px;">
+
+  <div class="demo-shell">
+    <div class="carousel">
+      <div class="carousel-track">
+        <div class="slide" id="slide-1">Slide one — swipe or drag →</div>
+        <div class="slide" id="slide-2">Slide two</div>
+        <div class="slide" id="slide-3">Slide three</div>
+        <div class="slide" id="slide-4">Slide four</div>
+      </div>
+      <div class="carousel-dots">
+        <a href="#slide-1" aria-label="Go to slide 1"></a>
+        <a href="#slide-2" aria-label="Go to slide 2"></a>
+        <a href="#slide-3" aria-label="Go to slide 3"></a>
+        <a href="#slide-4" aria-label="Go to slide 4"></a>
+      </div>
+    </div>
+  </div>
+
+  <section style="margin-top:48px">
+    <h2>How it's built</h2>
+    <ul>
+      <li><strong>The track:</strong> <code>.carousel-track</code> is just a flex row with <code>overflow-x: auto</code> — the browser gives you native scrolling, touch/trackpad support, and momentum for free.</li>
+      <li><strong>Snapping:</strong> <code>scroll-snap-type: x mandatory</code> on the track tells the browser the scroll position must always rest on a snap point. Each <code>.slide</code> declares <code>scroll-snap-align: start</code> as that point.</li>
+      <li><strong>Full-width slides:</strong> <code>flex: 0 0 100%</code> makes each slide exactly the track's width and prevents it from shrinking, so exactly one slide is visible at a time.</li>
+      <li><strong>Dot navigation without JS:</strong> each dot is a plain anchor link (<code>href="#slide-2"</code>) to the matching slide's <code>id</code>. Clicking it triggers the browser's native in-page scroll-to-anchor behavior — combined with <code>scroll-behavior: smooth</code> on the track, that scroll animates instead of jumping instantly.</li>
+      <li><strong>Hiding the scrollbar:</strong> <code>scrollbar-width: none</code> (Firefox) and the <code>::-webkit-scrollbar</code> override (Chrome/Safari) hide the native bar so the dots read as the only navigation UI, while the underlying scroll container still works with touch, trackpad, and keyboard.</li>
+    </ul>
+    <div class="callout warn">
+      <span class="callout-title">Known limitation</span>
+      <p>Because there's no JavaScript, the dots can't visually highlight which slide is "active" purely from anchor navigation — <code>:target</code> only matches after a same-page anchor click, not after a manual swipe. A small JS enhancement (an <code>IntersectionObserver</code> watching each slide) is the natural next step if that matters for your use case.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>css.ai — an open-source, practical CSS reference.</span>
+    <a href="../../index.html">Back to home</a>
+  </div>
+</footer>
+
+</body>
+</html>

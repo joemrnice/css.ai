@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Modern CSS (2023-2026) — css.ai</title>
+<meta name="description" content="has(), nesting, @layer, @container, scroll-driven animation, and color-mix." />
+<link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container">
+    <a class="brand" href="../index.html">css<span>.ai</span></a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#tracks">Guides</a>
+      <a href="../interview/index.html">Interview Q&amp;A</a>
+      <a href="../projects/index.html">Projects</a>
+      <a href="../reference/cheatsheet.html">Cheatsheet</a>
+      <a href="https://github.com/" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle menu">menu</button>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="container">
+    <span class="eyebrow">guide 11 / 14 · advanced</span>
+    <h1>Modern CSS (2023-2026)</h1>
+    <p class="lede" style="max-width:680px">The features that closed the biggest gaps between CSS and what people used to reach for a preprocessor or JavaScript to solve.</p>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="side-toc">
+    <h4>On this page</h4>
+    <a href="#nesting">Native nesting</a>
+    <a href="#layers">Cascade layers - @layer</a>
+    <a href="#has">:has() as a parent selector</a>
+    <a href="#container">Container queries, recap</a>
+    <a href="#scroll-animation">Scroll-driven animation</a>
+    <a href="#other">Other notable additions</a>
+    <a href="#interview">Interview angle</a>
+
+    <h4 style="margin-top:28px">Guides</h4>
+    <a href="fundamentals.html" >01. Fundamentals</a>
+    <a href="selectors-specificity.html" >02. Selectors &amp; specificity</a>
+    <a href="box-model.html" >03. Box model</a>
+    <a href="flexbox.html" >04. Flexbox</a>
+    <a href="grid.html" >05. Grid</a>
+    <a href="positioning-stacking.html" >06. Positioning</a>
+    <a href="responsive-design.html" >07. Responsive design</a>
+    <a href="typography-color.html" >08. Typography &amp; color</a>
+    <a href="custom-properties.html" >09. Custom properties</a>
+    <a href="animations-transitions.html" >10. Animation</a>
+    <a href="modern-css.html" class="active">11. Modern CSS</a>
+    <a href="architecture-methodologies.html" >12. Architecture</a>
+    <a href="preprocessors.html" >13. Preprocessors</a>
+    <a href="frameworks.html" >14. Frameworks</a>
+  </aside>
+
+  <article class="content">
+
+    <section id="nesting">
+      <h2>Native nesting</h2>
+      <p>CSS now supports nesting selectors without a preprocessor. Nested rules need the <code>&amp;</code> placeholder when combining with the parent (like Sass), except when the nested selector already starts with a combinator or compound selector, where it is implied.</p>
+      <div class="code-block">
+        <div class="code-label"><span>nesting.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-sel">.card</span> {
+  <span class="tok-prop">padding</span>: <span class="tok-val">1.5rem</span>;
+
+  <span class="tok-sel">&amp;:hover</span> { <span class="tok-prop">border-color</span>: <span class="tok-val">var(--brand)</span>; }
+
+  <span class="tok-sel">h3</span> {
+    <span class="tok-prop">margin</span>: <span class="tok-val">0 0 0.5rem</span>;
+  }
+
+  <span class="tok-at">@media</span> (<span class="tok-prop">min-width</span>: <span class="tok-val">600px</span>) {
+    <span class="tok-prop">padding</span>: <span class="tok-val">2rem</span>; <span class="tok-cmt">/* media queries can nest too */</span>
+  }
+}</pre>
+      </div>
+    </section>
+
+    <section id="layers">
+      <h2>Cascade layers - @layer</h2>
+      <p>Layers let you group rules into named buckets whose priority is decided by <em>declaration order of the layers themselves</em>, before specificity is even considered - a way to guarantee, say, that all component styles beat all reset styles regardless of how specific a reset selector is.</p>
+      <div class="code-block">
+        <div class="code-label"><span>layers.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-cmt">/* declare the priority order once, up front */</span>
+<span class="tok-at">@layer</span> <span class="tok-val">reset, base, components, utilities</span>;
+
+<span class="tok-at">@layer</span> <span class="tok-val">reset</span> {
+  <span class="tok-sel">*</span> { <span class="tok-prop">margin</span>: <span class="tok-val">0</span>; }
+}
+<span class="tok-at">@layer</span> <span class="tok-val">components</span> {
+  <span class="tok-sel">.card</span> { <span class="tok-prop">margin-bottom</span>: <span class="tok-val">1rem</span>; } <span class="tok-cmt">/* wins over reset even though reset uses * */</span>
+}</pre>
+      </div>
+      <div class="callout tip">
+        <span class="callout-title">Unlayered styles always win</span>
+        <p>Any CSS not inside a layer is treated as the highest-priority layer, above every named layer - useful for one-off overrides, but a reminder that layers only help you order code you deliberately opted in.</p>
+      </div>
+    </section>
+
+    <section id="has">
+      <h2>:has() as a parent selector</h2>
+      <p>Covered in depth in <a href="selectors-specificity.html">selectors &amp; specificity</a> - it's worth calling out here because it's arguably the single most-requested CSS feature of the last decade, letting you style an element based on its descendants or following siblings.</p>
+      <div class="code-block">
+        <div class="code-label"><span>has-forms.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-cmt">/* style a form label when its input is focused, no JS needed */</span>
+<span class="tok-sel">label:has(+ input:focus)</span> { <span class="tok-prop">color</span>: <span class="tok-val">var(--brand)</span>; }</pre>
+      </div>
+    </section>
+
+    <section id="container">
+      <h2>Container queries, recap</h2>
+      <p>See the full breakdown in <a href="responsive-design.html#container-queries">responsive design</a> - container queries are consistently grouped under "modern CSS" in interviews because they shifted responsive design from a page-level concern to a component-level one.</p>
+    </section>
+
+    <section id="scroll-animation">
+      <h2>Scroll-driven animation</h2>
+      <p>Animations can now be timed against scroll position instead of wall-clock time, without a scroll event listener in JavaScript:</p>
+      <div class="code-block">
+        <div class="code-label"><span>scroll-animation.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-sel">.progress-bar</span> {
+  <span class="tok-prop">animation</span>: <span class="tok-val">grow linear</span>;
+  <span class="tok-prop">animation-timeline</span>: <span class="tok-val">scroll(root)</span>; <span class="tok-cmt">/* driven by page scroll, not time */</span>
+}
+<span class="tok-at">@keyframes</span> <span class="tok-sel">grow</span> {
+  <span class="tok-val">from</span> { <span class="tok-prop">transform</span>: <span class="tok-val">scaleX(0)</span>; }
+  <span class="tok-val">to</span>   { <span class="tok-prop">transform</span>: <span class="tok-val">scaleX(1)</span>; }
+}</pre>
+      </div>
+    </section>
+
+    <section id="other">
+      <h2>Other notable additions</h2>
+      <table>
+        <thead><tr><th>Feature</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td><code>text-wrap: balance</code></td><td>Balances line lengths in headings</td></tr>
+          <tr><td><code>:where()</code></td><td>Zero-specificity selector grouping - see the selectors guide</td></tr>
+          <tr><td><code>color-mix()</code></td><td>Blend two colors in a chosen color space</td></tr>
+          <tr><td><code>@scope</code></td><td>Limits a rule's reach to a DOM subtree without relying on naming conventions</td></tr>
+          <tr><td><code>accent-color</code></td><td>Recolors native form controls (checkboxes, radios, range sliders) without custom markup</td></tr>
+          <tr><td><code>aspect-ratio</code></td><td>Sets width:height ratio directly, replacing the old padding-percentage-hack for responsive embeds</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="interview" class="callout interview">
+      <span class="callout-title">Interview angle</span>
+      <p><strong>Q: Explain @layer to someone who thinks specificity already solves this.</strong> Specificity is per-selector and can't express "everything in this whole group of rules should lose to everything in that group," regardless of selector complexity - layers solve an architectural problem specificity was never designed for. More in the <a href="../interview/index.html">interview guide</a>.</p>
+    </section>
+
+  </article>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>css.ai — an open-source, practical CSS reference.</span>
+    <a href="../index.html">Back to home</a>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

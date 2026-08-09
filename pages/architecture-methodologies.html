@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CSS Architecture & Methodologies — css.ai</title>
+<meta name="description" content="BEM, SMACSS, ITCSS, and utility-first CSS - how to keep a large stylesheet maintainable." />
+<link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container">
+    <a class="brand" href="../index.html">css<span>.ai</span></a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#tracks">Guides</a>
+      <a href="../interview/index.html">Interview Q&amp;A</a>
+      <a href="../projects/index.html">Projects</a>
+      <a href="../reference/cheatsheet.html">Cheatsheet</a>
+      <a href="https://github.com/" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle menu">menu</button>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="container">
+    <span class="eyebrow">guide 12 / 14 · advanced</span>
+    <h1>Architecture &amp; methodologies</h1>
+    <p class="lede" style="max-width:680px">Naming conventions and file organization exist to solve one problem: keeping specificity and selector scope predictable as a codebase grows past a handful of files.</p>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="side-toc">
+    <h4>On this page</h4>
+    <a href="#bem">BEM</a>
+    <a href="#smacss">SMACSS</a>
+    <a href="#itcss">ITCSS</a>
+    <a href="#utility-first">Utility-first CSS</a>
+    <a href="#choosing">Choosing an approach</a>
+    <a href="#interview">Interview angle</a>
+
+    <h4 style="margin-top:28px">Guides</h4>
+    <a href="fundamentals.html" >01. Fundamentals</a>
+    <a href="selectors-specificity.html" >02. Selectors &amp; specificity</a>
+    <a href="box-model.html" >03. Box model</a>
+    <a href="flexbox.html" >04. Flexbox</a>
+    <a href="grid.html" >05. Grid</a>
+    <a href="positioning-stacking.html" >06. Positioning</a>
+    <a href="responsive-design.html" >07. Responsive design</a>
+    <a href="typography-color.html" >08. Typography &amp; color</a>
+    <a href="custom-properties.html" >09. Custom properties</a>
+    <a href="animations-transitions.html" >10. Animation</a>
+    <a href="modern-css.html" >11. Modern CSS</a>
+    <a href="architecture-methodologies.html" class="active">12. Architecture</a>
+    <a href="preprocessors.html" >13. Preprocessors</a>
+    <a href="frameworks.html" >14. Frameworks</a>
+  </aside>
+
+  <article class="content">
+
+    <section id="bem">
+      <h2>BEM - Block, Element, Modifier</h2>
+      <p>BEM keeps every class name flat and self-describing, so specificity stays uniform (every selector is a single class) and there's never ambiguity about what a class belongs to.</p>
+      <div class="code-block">
+        <div class="code-label"><span>bem.css</span><button class="copy-btn">copy</button></div>
+        <pre><span class="tok-cmt">/* block__element--modifier */</span>
+<span class="tok-sel">.card</span>               { } <span class="tok-cmt">/* block */</span>
+<span class="tok-sel">.card__title</span>        { } <span class="tok-cmt">/* element - a part of the block */</span>
+<span class="tok-sel">.card__title--large</span> { } <span class="tok-cmt">/* modifier - a variant */</span>
+<span class="tok-sel">.card--featured</span>     { } <span class="tok-cmt">/* modifier on the block itself */</span></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>card.html</span><button class="copy-btn">copy</button></div>
+        <pre>&lt;div class=<span class="tok-str">"card card--featured"</span>&gt;
+  &lt;h3 class=<span class="tok-str">"card__title card__title--large"</span>&gt;Title&lt;/h3&gt;
+&lt;/div&gt;</pre>
+      </div>
+      <p>Trade-off: verbose class names, and no built-in answer for layout/spacing utilities - teams usually pair BEM with a small utility layer.</p>
+    </section>
+
+    <section id="smacss">
+      <h2>SMACSS - Scalable and Modular Architecture for CSS</h2>
+      <p>SMACSS categorizes rules into five types rather than prescribing a naming convention:</p>
+      <ul>
+        <li><strong>Base</strong> - element defaults, no classes (e.g. <code>a { color: blue; }</code>)</li>
+        <li><strong>Layout</strong> - major page regions, often prefixed <code>l-</code> or <code>layout-</code></li>
+        <li><strong>Module</strong> - reusable components (cards, buttons, nav)</li>
+        <li><strong>State</strong> - a module's condition, prefixed <code>is-</code> (e.g. <code>.is-active</code>, <code>.is-collapsed</code>)</li>
+        <li><strong>Theme</strong> - visual variations that can be swapped independently of structure</li>
+      </ul>
+    </section>
+
+    <section id="itcss">
+      <h2>ITCSS - Inverted Triangle CSS</h2>
+      <p>ITCSS organizes stylesheets by <em>specificity and reach</em> rather than by component, ordering files so each layer has broader scope but lower specificity than the one after it - solving load-order fights before they start.</p>
+      <div class="code-block">
+        <div class="code-label"><span>itcss layers, in load order</span><button class="copy-btn">copy</button></div>
+        <pre>1. Settings   <span class="tok-cmt">/* variables, config - no output */</span>
+2. Tools      <span class="tok-cmt">/* mixins, functions - no output */</span>
+3. Generic    <span class="tok-cmt">/* resets, box-sizing - broad, low specificity */</span>
+4. Elements   <span class="tok-cmt">/* bare tag styles: h1, a, ul */</span>
+5. Objects    <span class="tok-cmt">/* layout patterns, no cosmetics: .o-container */</span>
+6. Components <span class="tok-cmt">/* actual UI pieces: .c-button, .c-card */</span>
+7. Utilities  <span class="tok-cmt">/* single-purpose overrides: .u-hidden, !important allowed here */</span></pre>
+      </div>
+      <p>Modern cascade layers (<code>@layer</code>, see <a href="modern-css.html#layers">modern CSS</a>) let you express this same ordering natively, without relying on file concatenation order.</p>
+    </section>
+
+    <section id="utility-first">
+      <h2>Utility-first CSS</h2>
+      <p>Instead of naming components, compose styles from small, single-purpose classes directly in markup - the approach popularized by Tailwind CSS (see the <a href="frameworks.html">frameworks guide</a>).</p>
+      <div class="code-block">
+        <div class="code-label"><span>utility-first.html</span><button class="copy-btn">copy</button></div>
+        <pre>&lt;div class=<span class="tok-str">"flex items-center justify-between p-6 rounded-lg bg-slate-900"</span>&gt;</pre>
+      </div>
+      <p>Trade-off: markup carries more visual detail and can look noisy, but there's no CSS file to grow unbounded, no naming decisions to make, and dead styles are easy to spot (unused classes just stop appearing in markup).</p>
+    </section>
+
+    <section id="choosing">
+      <h2>Choosing an approach</h2>
+      <table>
+        <thead><tr><th>Situation</th><th>Reasonable fit</th></tr></thead>
+        <tbody>
+          <tr><td>Large team, many contributors, need enforceable naming</td><td>BEM</td></tr>
+          <tr><td>Big legacy codebase, need a clear file/load-order strategy</td><td>ITCSS + cascade layers</td></tr>
+          <tr><td>Fast product iteration, small design system already defined</td><td>Utility-first (Tailwind)</td></tr>
+          <tr><td>Small project, few contributors</td><td>Lightweight component-scoped CSS - full methodology may be overkill</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="interview" class="callout interview">
+      <span class="callout-title">Interview angle</span>
+      <p><strong>Q: Why would a team choose Tailwind over BEM, or vice versa?</strong> Frame it as a trade-off between markup verbosity and stylesheet growth, not "which is objectively better" - a strong answer names the actual constraint (team size, design system maturity, iteration speed) that would tip the decision. More in the <a href="../interview/index.html">interview guide</a>.</p>
+    </section>
+
+  </article>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>css.ai — an open-source, practical CSS reference.</span>
+    <a href="../index.html">Back to home</a>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
